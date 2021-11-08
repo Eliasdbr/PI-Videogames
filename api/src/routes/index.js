@@ -1,12 +1,13 @@
 const { Router } = require('express');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-
+const Utils = require('../utils/utils.js');
 
 const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
+router.use('/',Utils);
 
 // - - GET /videogames
 // -Front requests a list of 100 games, 
