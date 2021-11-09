@@ -1,13 +1,13 @@
 const { Router } = require('express');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
+const {Videogame,Genre,Platform} = require('../db.js');
 const Utils = require('../utils/utils.js');
 
 const router = Router();
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-router.use('/',Utils);
 
 // - - GET /videogames
 // -Front requests a list of 100 games, 
@@ -49,8 +49,10 @@ router.get(
 //   via the body.
 router.post(
 	'/videogame',
-	(req,res) => {
-		res.status(200).json(req.body);
+	async (req,res) => {
+		const response = await Utils.postGame(req.body);
+		if (response.id) res.status(200).json(response);
+		else res.status(400).json(response);
 	}
 );
 

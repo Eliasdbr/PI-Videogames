@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
+			/*
 			// Getter. Inserts the character prefix before returning the ID
 			get() {
 				return `L${this.getDataValue('id')}`;
@@ -17,6 +18,7 @@ module.exports = (sequelize) => {
 			set(value) {
 				this.setDataValue('id', value.slice(1) * 1);
 			}
+			*/
 		},
 		name: {
 			type: DataTypes.STRING,
