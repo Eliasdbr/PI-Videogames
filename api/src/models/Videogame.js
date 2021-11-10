@@ -9,20 +9,13 @@ module.exports = (sequelize) => {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
-			/*
-			// Getter. Inserts the character prefix before returning the ID
-			get() {
-				return `L${this.getDataValue('id')}`;
-			},
-			// Setter. Extracts the character prefix before storing the ID
-			set(value) {
-				this.setDataValue('id', value.slice(1) * 1);
-			}
-			*/
 		},
 		name: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			validate: { 
+				notEmpty: true
+			},
 		},
 		description: {
 			type: DataTypes.STRING,
@@ -32,10 +25,15 @@ module.exports = (sequelize) => {
 			type: DataTypes.STRING,
 		},
 		rating: {
-			type: DataTypes.STRING,
+			type: DataTypes.DECIMAL(10,2),
 		},
-		// Instead of using a 'Platforms' attribute, I'll create dedicated
+		// *Instead of using a 'Platforms' attribute, I'll create dedicated
 		// model for it.
+		// *Added: Image url
+		background_url: {
+			type: DataTypes.STRING,
+			validate: { isUrl: true },
+		},
 	},{
 		timestamps: false
 	});

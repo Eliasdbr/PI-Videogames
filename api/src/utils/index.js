@@ -8,16 +8,88 @@ const { API_KEY } = process.env;
 const { Videogame, Genre, Platform } = require('../db.js');
 
 module.exports = {
-	getGamesDB: function() {
+	getGamesDB: async function() {
 	},
 	
-	getGamesAPI: function() {
+	getGamesAPI: async function() {
+	},
+	
+	getGameDetail: async function(id) {
+		// First we check where to go search the id
+		// A = Stored in API, L = Stored locally in DB.
+		const local = id[0] === 'L';
+		// To get the real Id, trim the letter at the start.
+		const idNumber = id.slice(1)*1;
+		// If is a local id, we search the game in the DB.
+		if (local) {
+			return await Videogame.findByPk(
+				idNumber, 
+				// Equivalent of sql's JOIN. Combine with related tables.
+				{include: [
+					{
+						model: Genre,
+						attributes: ['id','name'],
+						through: {attributes: []},
+					},
+					{
+						model: Platform,
+						attributes: ['id','name'],
+						through: {attributes: []},
+					},
+				]}
+			) || {msg: `Couldn't find the game with id:${idNumber} locally.`};
+		}
+		// If is a API id, we search the game in the API.
+		else {
+			// Requests the game details.
+			console.log('Axios: Requesting Game Details.');
+			try{
+				const response = await axios.get(
+					`https://api.rawg.io/api/games/${idNumber}?key=${API_KEY}`
+				);
+				console.log('Axios: OK.');
+				// Filters only the necessary data.
+				return {
+					name: response.data.name,
+					// Note: that regexp removes any markup tag from the description.
+					//       we use it because the API contains the desc
+					//       in HTML format.
+					description:  response.data
+																.description
+																.replace(/<(.|\n)*?>/g, ''),
+					release_date: response.data.released,
+					rating: response.data.rating,
+					background_url: response.data.background_image,
+					genres: response.data.genres.map(
+						// For each genre I only need the id and name.
+						genre => {
+								return {
+									id: genre.id,
+									name: genre.name
+								}
+							}
+						),
+					platforms: response.data.platforms.map(
+						// For each genre I only need the id and name.
+						element => {
+								return {
+									id: element.platform.id,
+									name: element.platform.name
+								}
+							}
+						),
+				};
+			}
+			catch (error) {
+				return {msg: `Couldn't find the game with id:${idNumber} in the API.`};
+			}
+		}
 	},
 	
 	// Stores a game into the DB with the data as an object.
 	// If the id already exists, it will return null.
 	// Otherwise, it returns the id of the game created.
-	postGame: async function({name, desc, date, rate, genres, platforms}) {
+	postGame: async function({name, desc, date, rate, genres, platforms, bg_url}) {
 		// If we recieve a name, description and at least 1 platform (we should),
 		// we try to store it in our DB.
 		if (name && desc && platforms.length > 0) {
@@ -27,6 +99,7 @@ module.exports = {
 					description: desc,
 					release_date: date || null,
 					rating: rate || null,
+					background_url: bg_url || null,
 				}
 			});
 			
@@ -53,10 +126,11 @@ module.exports = {
 	
 	getGenresAPI: async function() {
 		// Requests a list of the genres
-		console.log('Axios: Requesting Genres List.');
+		console.log('Axios: Requesting Genres List...');
 		const response = await axios.get(
 			`https://api.rawg.io/api/genres?key=${API_KEY}`
 		);
+		console.log('Axios: OK.');
 		// Filters only the necesary data.
 		return response.data.results.map(
 			// For each genre I only need the id and name.
@@ -88,6 +162,7 @@ module.exports = {
 		const response = await axios.get(
 			`https://api.rawg.io/api/platforms?key=${API_KEY}`
 		);
+		console.log('Axios: OK.');
 		// Filters only the necesary data.
 		return response.data.results.map(
 			// For each genre I only need the id and name.
@@ -106,7 +181,7 @@ module.exports = {
 		let platforms_list = await Platform.findAll();
 		// if there's no platforms stored, go find them from the API
 		if (!platforms_list.length) { 
-			platforms_list = await this.getGenresAPI();
+			platforms_list = await this.getPlatformsAPI();
 			// and store it locally so we don't have to request the API again.
 			await Platform.bulkCreate(platforms_list);
 		}

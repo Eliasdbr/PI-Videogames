@@ -1,5 +1,9 @@
 const { Router } = require('express');
-const { postGame } = require('../utils');
+const { 
+	getGameDetail,
+	getGameDetailDB,
+	postGame
+} = require('../utils');
 
 const router = Router();
 
@@ -9,7 +13,10 @@ const router = Router();
 router.get(
 	'/:id',
 	async (req,res) => {
-		res.status(200).json({msg: req.params.id});
+		const { id } = req.params;
+		const response = await getGameDetail(id);
+		if (response.id) res.status(200).json(response);
+		else res.status(400).json(response);
 	}
 );
 
