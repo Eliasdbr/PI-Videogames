@@ -4,7 +4,8 @@ require('dotenv').config();
 const axios = require('axios');
 const { API_KEY } = process.env;
 
-const { Videogame,Genre,Platform } = require('../db.js');
+// Import the DB models
+const { Videogame, Genre, Platform } = require('../db.js');
 
 module.exports = {
 	getGamesDB: function() {
@@ -17,21 +18,7 @@ module.exports = {
 	// If the id already exists, it will return null.
 	// Otherwise, it returns the id of the game created.
 	postGame: async function({name, desc, date, rate, genres, platforms}) {
-		/*
-			we recieve:
-			{
-				name(string),
-				description(string),
-				release_date(date_string),
-				rating(number)
-				genres[number]
-				platforms[number]
-			}
-			we send:
-			{ id(string), msg(string) }
-		*/
-		// If we recieve a name, description
-		// and at least 1 platform (we should),
+		// If we recieve a name, description and at least 1 platform (we should),
 		// we try to store it in our DB.
 		if (name && desc && platforms.length > 0) {
 			const [submitted,created] = await Videogame.findOrCreate({
@@ -125,5 +112,4 @@ module.exports = {
 		}
 		return platforms_list;
 	},
-
 }
