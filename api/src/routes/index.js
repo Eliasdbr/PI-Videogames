@@ -1,13 +1,12 @@
 const { Router } = require('express');
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-const {Videogame,Genre,Platform} = require('../db.js');
+// Import routers
+// const authRouter = require('./auth.js');
 const Utils = require('../utils/utils.js');
 
 const router = Router();
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
+// Configure routers
+// router.use('/auth', authRouter);
 
 // - - GET /videogames
 // -Front requests a list of 100 games, 
@@ -17,7 +16,7 @@ const router = Router();
 //  sent via the query parameter 'search'
 router.get(
 	'/videogames',
-	(req,res) => {
+	async (req,res) => {
 		if (req.query.search) res.status(200).json({msg: req.query.search});
 		else res.status(200).json({msg: 'Hola mundo!'});
 	}
@@ -28,7 +27,7 @@ router.get(
 //   route param 'id'
 router.get(
 	'/videogame/:id',
-	(req,res) => {
+	async (req,res) => {
 		res.status(200).json({msg: req.params.id});
 	}
 );
@@ -38,8 +37,14 @@ router.get(
 // - Front requests a list of all genres stored in the DB
 router.get(
 	'/genres',
-	(req,res) => {
-		res.status(200).json({msg: 'Hola generos!'});
+	async (req,res) => {
+		try {
+			const gen_list = await Utils.getGenres();
+			res.status(200).json(gen_list);
+		}
+		catch (error) {
+			res.status(400).json({msg: error})
+		}
 	}
 );
 

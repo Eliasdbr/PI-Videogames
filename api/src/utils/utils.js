@@ -1,6 +1,10 @@
 // All the logic for handling information goes here
 //
-const {Videogame,Genre,Platform} = require('../db.js');
+require('dotenv').config();
+const axios = require('axios');
+const { API_KEY } = process.env;
+
+const { Videogame,Genre,Platform } = require('../db.js');
 
 module.exports = {
 	getGamesDB: function() {
@@ -20,8 +24,8 @@ module.exports = {
 				description(string),
 				release_date(date_string),
 				rating(number)
-				genres[ids]
-				platforms[ids]
+				genres[number]
+				platforms[number]
 			}
 			we send:
 			{ id(string), msg(string) }
@@ -60,16 +64,66 @@ module.exports = {
 		else return {msg: 'Back2Front: control your forms!!'};
 	},
 	
-	getGenresDB: function() {
+	getGenresAPI: async function() {
+		// Requests a list of the genres
+		console.log('Axios: Requesting Genres List.');
+		const response = await axios.get(
+			`https://api.rawg.io/api/genres?key=${API_KEY}`
+		);
+		// Filters only the necesary data.
+		return response.data.results.map(
+			// For each genre I only need the id and name.
+			genre => {
+				return {
+					id: genre.id,
+					name: genre.name
+				}
+			}
+		);
 	},
 	
-	getGenresAPI: function() {
+	// Returns a list of all the genres
+	getGenres: async function() {
+		// First search the genres in the DB
+		let genres_list = await Genre.findAll();
+		// if there's no genres stored, go find them from the API
+		if (!genres_list.length) { 
+			genres_list = await this.getGenresAPI();
+			// and store it locally so we don't have to request the API again.
+			await Genre.bulkCreate(genres_list);
+		}
+		return genres_list;
 	},
 	
-	getPlatformsDB: function() {
+	getPlatformsAPI: async function() {
+		// Requests a list of the genres
+		console.log('Axios: Requesting Platforms List.');
+		const response = await axios.get(
+			`https://api.rawg.io/api/platforms?key=${API_KEY}`
+		);
+		// Filters only the necesary data.
+		return response.data.results.map(
+			// For each genre I only need the id and name.
+			platform => {
+				return {
+					id: platform.id,
+					name: platform.name
+				}
+			}
+		);
 	},
 	
-	getPlatformsAPI: function() {
+	// Returns a list of all the platforms
+	getPlatforms: async function() {
+		// First search the platforms in the DB
+		let platforms_list = await Platform.findAll();
+		// if there's no platforms stored, go find them from the API
+		if (!platforms_list.length) { 
+			platforms_list = await this.getGenresAPI();
+			// and store it locally so we don't have to request the API again.
+			await Platform.bulkCreate(platforms_list);
+		}
+		return platforms_list;
 	},
 
 }
