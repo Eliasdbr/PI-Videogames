@@ -5,13 +5,52 @@ const axios = require('axios');
 const { API_KEY } = process.env;
 
 // Import the DB models
+const { Op } = require('sequelize'); 
 const { Videogame, Genre, Platform } = require('../db.js');
 
 module.exports = {
-	getGamesDB: async function() {
+	// Search games in the DB.
+	getGamesDB: async function(name) {
+		let results = await Videogame.findAll({
+			// Searches coincidences by substrings, case insensitive.
+			where: name ? {
+				name: {
+					[Op.iLike]: `%${name}%`
+				}
+			} : {},
+			// Include only attributes we need.
+			attributes: ['id','name','background_url'],
+			// Also include genres of the game.
+			include: {
+				model: Genre,
+				attributes: ['id','name'],
+				through: {attributes: []},
+			},
+		});
+		// Append the L at the start of each ID to make it
+		// distiguishable from the API ones.
+		results.forEach(game => game.id = 'L' + game.id);
+		return results;
 	},
 	
-	getGamesAPI: async function() {
+	// Search games in the API
+	getGamesAPI: async function(name) {
+	},
+	
+	// Go find a list of games matching the search name.
+	getGames: async function(name) {
+		// Get the games from the DB.
+		let results = await this.getGamesDB(name);
+		// Add to the results, the games from the API.
+		results = [...results, await this.getGamesAPI(name)];
+		// If we search games, we limit the results to 15,
+		// otherwise, we limit the results to 100.
+		results.splice(name ? 15 : 100);
+		if (!name) {/*
+			if we want the whole list of games, we'll need to paginate
+			the results.
+		*/}
+		return results;
 	},
 	
 	getGameDetail: async function(id) {
@@ -19,7 +58,11 @@ module.exports = {
 		// A = Stored in API, L = Stored locally in DB.
 		const local = id[0] === 'L';
 		// To get the real Id, trim the letter at the start.
-		const idNumber = id.slice(1)*1;
+		// Forces it to an integer
+		const idNumber = Math.floor( id.slice(1)*1 );
+		// if the id is invalid, return an error message.
+		if (isNaN(idNumber))
+			return {msg: `'${id}' is an invalid ID.`};
 		// If is a local id, we search the game in the DB.
 		if (local) {
 			return await Videogame.findByPk(
@@ -37,7 +80,8 @@ module.exports = {
 						through: {attributes: []},
 					},
 				]}
-			) || {msg: `Couldn't find the game with id:${idNumber} locally.`};
+			)
+			|| {msg: `Couldn't find the game with id:${idNumber} locally.`};
 		}
 		// If is a API id, we search the game in the API.
 		else {

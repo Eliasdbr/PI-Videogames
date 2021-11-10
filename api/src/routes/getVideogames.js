@@ -14,8 +14,8 @@ const router = Router();
 router.get(
 	'/',
 	async (req,res) => {
-		if (req.query.search) res.status(200).json({msg: req.query.search});
-		else res.status(200).json({msg: 'Hola mundo!'});
+		const { search } = req.query || null;
+		res.status(200).json(await Utils.getGames(search));
 	}
 );
 
