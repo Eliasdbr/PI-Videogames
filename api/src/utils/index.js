@@ -8,6 +8,10 @@ const { API_KEY } = process.env;
 const { Op } = require('sequelize'); 
 const { Videogame, Genre, Platform } = require('../db.js');
 
+const PAGE_SIZE = 15; // Max games per page.
+const SEARCH_PAGE_SIZE = 15; // Max games in the search page.
+const MAX_GAMES = 100;// Max games in total.
+
 module.exports = {
 	// Search games in the DB.
 	getGamesDB: async function(name) {
@@ -29,8 +33,9 @@ module.exports = {
 		});
 		// Append the L at the start of each ID to make it
 		// distiguishable from the API ones.
-		results.forEach(game => game.id = 'L' + game.id);
-		return results;
+		return results.map(game => {
+			return { ...game.dataValues, id: 'L' + game.id};
+		});
 	},
 	
 	// Search games in the API
@@ -41,22 +46,44 @@ module.exports = {
 	getGamesAPI: async function(name) {
 		var response = {};
 		// Requests the games list.
+		// if we have a search query, we search the 1st 15 coincidences.
 		if (name) {
-			console.log('Axios: Requesting Games List.');
-			response = await axios.get(
-				`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}&page_size=15`
-			);
-			console.log('Axios: OK.');
+			try {
+				console.log('Axios: Requesting Games Search List.');
+				response = await axios.get(
+					`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}&page_size=15`
+				);
+				console.log('Axios: OK.');
+				response = response.data.results;
+			}
+			// If for some reason we get an error from the API, we abort.
+			catch (e) {return {msg: 'Error trying to get the data from the API.'}}
 		} else {
 			// If you want all 100 games, you're gonna get'em.
-			let promises = [1,2,3,4].map( async (e) => await axios.get(
-				`https://api.rawg.io/api/games?key=${API_KEY}&page_size=25&page=${e}`
-			));
-			// HACER UN PROMISEALL() seguir acá
-			response = await Promise.all(promises);
+			try{
+				console.log('Axios: Requesting Games Complete List.');
+				// Brace for all 4 requests of 25 games each!
+				let promises = [1,2,3,4].map( async (e) => await axios.get(
+					`https://api.rawg.io/api/games?key=${API_KEY}&page_size=25&page=${e}`
+				));
+				console.log('Axios: OK.');
+				// We process the 4 responses here 
+				response = await Promise.all(promises);
+				// We need to put them together in the same array, too.
+				response = response.reduce( 
+					(prev,curr) => {
+						return prev.concat(curr.data.results);
+					},
+					[] // initial value: empty array
+				);
+			}
+			// If for some reason we get an error from the API, we abort.
+			catch (e) {return {msg: 'Error trying to get the data from the API.'}}
 		}
-		// Filters only the necessary data.
-		return response.data.results.map(
+		
+		// Filters only the necessary data (id, name, image, genres)
+		// and returns it
+		return response.map(
 			(data) => {
 				return {
 					id: 'A' + data.id,
@@ -74,6 +101,7 @@ module.exports = {
 				};
 			}
 		);
+		
 	},
 	
 	// Go find a list of games matching the search name.
@@ -81,14 +109,14 @@ module.exports = {
 		// Get the games from the DB.
 		let results = await this.getGamesDB(name);
 		// Add to the results, the games from the API.
-		results = [...results, await this.getGamesAPI(name)];
+		results = results.concat(await this.getGamesAPI(name));
 		// If we search games, we limit the results to 15,
 		// otherwise, we limit the results to 100.
-		results.splice(name ? 15 : 100);
-		if (!name) {/*
-			if we want the whole list of games, we'll need to paginate
-			the results.
-		*/}
+		// If we want the whole list of games, we'll need to paginate
+		results.splice(name ? SEARCH_PAGE_SIZE : MAX_GAMES);
+		if (name) {
+			if (results.length === 0) return { msg: `There's no games with '${name}' in their name.` };
+		}
 		return results;
 	},
 	
