@@ -1,11 +1,16 @@
-// All the logic for handling information goes here
 //
-require('dotenv').config();
-const axios = require('axios');
-const { API_KEY } = process.env;
+// - - All the logic for handling information goes here
+//
+
+// Import the API & DB functions
+const getGamesDB = require('./getGamesDB.js');
+const getGamesAPI = require('./getGamesAPI.js');
+const getGameDetailDB = require('./getGameDetailDB.js');
+const getGameDetailAPI = require('./getGameDetailAPI.js');
+const getGenresAPI = require('./getGenresAPI.js');
+const getPlatformsAPI = require('./getPlatformsAPI.js');
 
 // Import the DB models
-const { Op } = require('sequelize'); 
 const { Videogame, Genre, Platform } = require('../db.js');
 
 const PAGE_SIZE = 15; // Max games per page.
@@ -13,96 +18,12 @@ const SEARCH_PAGE_SIZE = 15; // Max games in the search page.
 const MAX_GAMES = 100;// Max games in total.
 
 module.exports = {
-	// Search games in the DB.
-	getGamesDB: async function(name) {
-		let results = await Videogame.findAll({
-			// Searches coincidences by substrings, case insensitive.
-			where: name ? {
-				name: {
-					[Op.iLike]: `%${name}%`
-				}
-			} : {},
-			// Include only attributes we need.
-			attributes: ['id','name','background_url'],
-			// Also include genres of the game.
-			include: {
-				model: Genre,
-				attributes: ['id','name'],
-				through: {attributes: []},
-			},
-		});
-		// Append the L at the start of each ID to make it
-		// distiguishable from the API ones.
-		return results.map(game => {
-			return { ...game.dataValues, id: 'L' + game.id};
-		});
-	},
-	
-	// Search games in the API
-	// NOTE: Since the API has a maximum quantity of results per page,
-	//       We'll need to make 4 simoultaneous requests with 25 results
-	//       each, and the only way to get all 100 results, is using
-	//       the '&page=x' query parameter.
-	getGamesAPI: async function(name) {
-		var response = {};
-		// Requests the games list.
-		// if we have a search query, we search the 1st 15 coincidences.
-		if (name) {
-			try {
-				console.log('Axios: Requesting Games Search List.');
-				response = await axios.get(
-					`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}&page_size=15`
-				);
-				console.log('Axios: OK.');
-				response = response.data.results;
-			}
-			// If for some reason we get an error from the API, we abort.
-			catch (e) {return {msg: 'Error trying to get the data from the API.'}}
-		} else {
-			// If you want all 100 games, you're gonna get'em.
-			try{
-				console.log('Axios: Requesting Games Complete List.');
-				// Brace for all 4 requests of 25 games each!
-				let promises = [1,2,3,4].map( async (e) => await axios.get(
-					`https://api.rawg.io/api/games?key=${API_KEY}&page_size=25&page=${e}`
-				));
-				console.log('Axios: OK.');
-				// We process the 4 responses here 
-				response = await Promise.all(promises);
-				// We need to put them together in the same array, too.
-				response = response.reduce( 
-					(prev,curr) => {
-						return prev.concat(curr.data.results);
-					},
-					[] // initial value: empty array
-				);
-			}
-			// If for some reason we get an error from the API, we abort.
-			catch (e) {return {msg: 'Error trying to get the data from the API.'}}
-		}
-		
-		// Filters only the necessary data (id, name, image, genres)
-		// and returns it
-		return response.map(
-			(data) => {
-				return {
-					id: 'A' + data.id,
-					name: data.name,
-					background_url: data.background_image,
-					genres: data.genres.map(
-						// For each genre I only need the id and name.
-						genre => {
-								return {
-									id: genre.id,
-									name: genre.name
-								}
-							}
-						),
-				};
-			}
-		);
-		
-	},
+	getGamesDB,
+	getGamesAPI,
+	getGameDetailDB,
+	getGameDetailAPI,
+	getGenresAPI,
+	getPlatformsAPI,
 	
 	// Go find a list of games matching the search name.
 	getGames: async function(name) {
@@ -120,6 +41,7 @@ module.exports = {
 		return results;
 	},
 	
+	// Go find the details of a game with the specified id.
 	getGameDetail: async function(id) {
 		// First we check where to go search the id
 		// A = Stored in API, L = Stored locally in DB.
@@ -132,68 +54,13 @@ module.exports = {
 			return {msg: `'${id}' is an invalid ID.`};
 		// If is a local id, we search the game in the DB.
 		if (local) {
-			return await Videogame.findByPk(
-				idNumber, 
-				// Equivalent of sql's JOIN. Combine with related tables.
-				{include: [
-					{
-						model: Genre,
-						attributes: ['id','name'],
-						through: {attributes: []},
-					},
-					{
-						model: Platform,
-						attributes: ['id','name'],
-						through: {attributes: []},
-					},
-				]}
-			)
-			|| {msg: `Couldn't find the game with id:${idNumber} locally.`};
+			
+			//console.log(this.getGameDetailDB);
+			return await getGameDetailDB(idNumber);
 		}
-		// If is a API id, we search the game in the API.
+		// If it's an API id, we search the game in the API.
 		else {
-			// Requests the game details.
-			console.log('Axios: Requesting Game Details.');
-			try{
-				const response = await axios.get(
-					`https://api.rawg.io/api/games/${idNumber}?key=${API_KEY}`
-				);
-				console.log('Axios: OK.');
-				// Filters only the necessary data.
-				return {
-					name: response.data.name,
-					// Note: that regexp removes any markup tag from the description.
-					//       we use it because the API contains the desc
-					//       in HTML format.
-					description:  response.data
-																.description
-																.replace(/<(.|\n)*?>/g, ''),
-					release_date: response.data.released,
-					rating: response.data.rating,
-					background_url: response.data.background_image,
-					genres: response.data.genres.map(
-						// For each genre I only need the id and name.
-						genre => {
-								return {
-									id: genre.id,
-									name: genre.name
-								}
-							}
-						),
-					platforms: response.data.platforms.map(
-						// For each genre I only need the id and name.
-						element => {
-								return {
-									id: element.platform.id,
-									name: element.platform.name
-								}
-							}
-						),
-				};
-			}
-			catch (error) {
-				return {msg: `Couldn't find the game with id:${idNumber} in the API.`};
-			}
+			return await getGameDetailAPI(idNumber);
 		}
 	},
 	
@@ -235,25 +102,6 @@ module.exports = {
 		else return {msg: 'Back2Front: control your forms!!'};
 	},
 	
-	getGenresAPI: async function() {
-		// Requests a list of the genres
-		console.log('Axios: Requesting Genres List...');
-		const response = await axios.get(
-			`https://api.rawg.io/api/genres?key=${API_KEY}`
-		);
-		console.log('Axios: OK.');
-		// Filters only the necesary data.
-		return response.data.results.map(
-			// For each genre I only need the id and name.
-			genre => {
-				return {
-					id: genre.id,
-					name: genre.name
-				}
-			}
-		);
-	},
-	
 	// Returns a list of all the genres
 	getGenres: async function() {
 		// First search the genres in the DB
@@ -265,25 +113,6 @@ module.exports = {
 			await Genre.bulkCreate(genres_list);
 		}
 		return genres_list;
-	},
-	
-	getPlatformsAPI: async function() {
-		// Requests a list of the genres
-		console.log('Axios: Requesting Platforms List.');
-		const response = await axios.get(
-			`https://api.rawg.io/api/platforms?key=${API_KEY}`
-		);
-		console.log('Axios: OK.');
-		// Filters only the necesary data.
-		return response.data.results.map(
-			// For each genre I only need the id and name.
-			platform => {
-				return {
-					id: platform.id,
-					name: platform.name
-				}
-			}
-		);
 	},
 	
 	// Returns a list of all the platforms
