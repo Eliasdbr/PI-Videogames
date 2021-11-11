@@ -34,7 +34,46 @@ module.exports = {
 	},
 	
 	// Search games in the API
+	// NOTE: Since the API has a maximum quantity of results per page,
+	//       We'll need to make 4 simoultaneous requests with 25 results
+	//       each, and the only way to get all 100 results, is using
+	//       the '&page=x' query parameter.
 	getGamesAPI: async function(name) {
+		var response = {};
+		// Requests the games list.
+		if (name) {
+			console.log('Axios: Requesting Games List.');
+			response = await axios.get(
+				`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}&page_size=15`
+			);
+			console.log('Axios: OK.');
+		} else {
+			// If you want all 100 games, you're gonna get'em.
+			let promises = [1,2,3,4].map( async (e) => await axios.get(
+				`https://api.rawg.io/api/games?key=${API_KEY}&page_size=25&page=${e}`
+			));
+			// HACER UN PROMISEALL() seguir acá
+			response = await Promise.all(promises);
+		}
+		// Filters only the necessary data.
+		return response.data.results.map(
+			(data) => {
+				return {
+					id: 'A' + data.id,
+					name: data.name,
+					background_url: data.background_image,
+					genres: data.genres.map(
+						// For each genre I only need the id and name.
+						genre => {
+								return {
+									id: genre.id,
+									name: genre.name
+								}
+							}
+						),
+				};
+			}
+		);
 	},
 	
 	// Go find a list of games matching the search name.
