@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getGenres } = require('../utils');
+const { getGenres } = require('../controllers');
 
 const router = Router();
 
@@ -8,13 +8,9 @@ const router = Router();
 router.get(
 	'/',
 	async (req,res) => {
-		try {
-			const gen_list = await getGenres();
-			res.status(200).json(gen_list);
-		}
-		catch (error) {
-			res.status(400).json({msg: error})
-		}
+		const result = await getGenres();
+		let code = result.msg ? 400 : 200;
+		res.status(code).json(result);
 	}
 );
 

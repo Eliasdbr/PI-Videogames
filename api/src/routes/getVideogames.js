@@ -1,7 +1,7 @@
 const { Router } = require('express');
 // Import routers
 // const authRouter = require('./auth.js');
-const Utils = require('../utils');
+const control = require('../controllers');
 
 const router = Router();
 
@@ -15,7 +15,9 @@ router.get(
 	'/',
 	async (req,res) => {
 		const { search } = req.query || null;
-		res.status(200).json(await Utils.getGames(search));
+		const result = await control.getGames(search);
+		let code = result.msg ? 400 : 200;
+		res.status(code).json(result);
 	}
 );
 

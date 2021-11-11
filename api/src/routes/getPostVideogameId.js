@@ -3,7 +3,7 @@ const {
 	getGameDetail,
 	getGameDetailDB,
 	postGame
-} = require('../utils');
+} = require('../controllers');
 
 const router = Router();
 
@@ -15,8 +15,8 @@ router.get(
 	async (req,res) => {
 		const { id } = req.params;
 		const response = await getGameDetail(id);
-		if (response.id) res.status(200).json(response);
-		else res.status(400).json(response);
+		let code = response.msg ? 400 : 200;
+		res.status(code).json(response);
 	}
 );
 
@@ -27,8 +27,8 @@ router.post(
 	'/',
 	async (req,res) => {
 		const response = await postGame(req.body);
-		if (response.id) res.status(200).json(response);
-		else res.status(400).json(response);
+		let code = response.id ? 200 : 400;
+		res.status(code).json(response);
 	}
 );
 

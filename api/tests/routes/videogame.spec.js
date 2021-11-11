@@ -6,7 +6,8 @@ const { Videogame, conn } = require('../../src/db.js');
 
 const agent = session(app);
 const videogame = {
-  name: 'Super Mario Bros',
+  name: 'Super Marito Bros',
+  description: 'Jo jooojo'
 };
 
 describe('Videogame routes', () => {
@@ -18,7 +19,7 @@ describe('Videogame routes', () => {
     .then(() => Videogame.create(videogame)));
   describe('GET /videogames', () => {
     it('should get 200', () =>
-      agent.get('/videogames').expect(200)
+      agent.get('/videogames?search=mario').expect(200)
     );
   });
 });
