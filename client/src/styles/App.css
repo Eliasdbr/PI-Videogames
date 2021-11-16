@@ -1,0 +1,57 @@
+/*
+ *	Global Styles
+ * */
+/* App styles*/
+.App {
+	background-image: none;
+	width: 100%;
+	min-height: 100vh;
+}
+/* App children */
+.App * {
+	margin: 0;
+	transition: all .25s cubic-bezier(.22,.61,.36,1);
+	text-align: center;
+	/* For debugging only */
+	/*padding: 4px; 
+	border: 2px solid gray; */
+}
+
+/* All buttons who are children of App*/
+.App * button {
+	background-color: #8884;
+	border: none;
+	border-radius: 0.7em;
+	padding: 0.7em;
+	transition: all .25s cubic-bezier(.22,.61,.36,1);
+}
+/* Hovering those buttons */
+.App * button:hover {
+	background-color: #8888;
+}
+
+/* All inputs who are children of App*/
+.App * input {
+	background-color: #8888;
+	border: none;
+	border-radius: 0.7em;
+	padding: 0.7em;
+}
+
+/* Dark mode */
+.dark {
+	background-color: #223;
+	transition: all .5s cubic-bezier(.22,.61,.36,1);
+}
+.dark * {
+	color: #FFE;
+}
+
+/* Light mode */
+.light {
+	background-color: #FFE;
+	transition: all .5s cubic-bezier(.22,.61,.36,1);
+}
+.light * {
+	color: #223;
+}

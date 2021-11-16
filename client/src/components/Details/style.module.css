@@ -1,0 +1,19 @@
+.component {
+	
+}
+.component img {
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 25%;
+}
+.description {
+	white-space: pre-line;
+	text-align: left;
+	margin: 20px 10%;
+}
+.data {
+	position: relative;
+	z-index: 1;
+}

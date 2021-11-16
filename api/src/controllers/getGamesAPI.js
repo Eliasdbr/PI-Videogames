@@ -54,6 +54,7 @@ module.exports = async function(name) {
 				id: 'A' + data.id,
 				name: data.name,
 				background_url: data.background_image,
+				rating: data.rating,
 				genres: data.genres.map(
 					// For each genre I only need the id and name.
 					genre => {

@@ -1,0 +1,13 @@
+.component {
+	display: flex;
+	justify-content: center;
+}
+.link {
+	padding: 10px;
+	text-decoration: none;
+	/*color: #68E;*/
+}
+.linkActive {
+	background-color: #8888;
+	/* color: #E86; */
+}

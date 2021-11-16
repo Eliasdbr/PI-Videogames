@@ -17,7 +17,11 @@ module.exports = async function (idNumber) {
 			// Note: that regexp removes any markup tag from the description.
 			//       we use it because the API contains the desc
 			//       in HTML format.
-			description:  response.data.description.replace(/<(.|\n)*?>/g, ''),
+			description: await response.data.description
+				.replace(/<(.|\n)*?>/g, '')
+				.replace(/\*\*\*/g, '\n')
+				.replace(/&amp;quot;/g, '"')
+				.replace(/&amp;#39;/g,  "'"),
 			release_date: response.data.released,
 			rating: response.data.rating,
 			background_url: response.data.background_image,
