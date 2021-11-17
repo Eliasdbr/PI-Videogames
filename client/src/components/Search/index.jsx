@@ -3,32 +3,51 @@
  * */
 
 // React for component based dom structuring.
-import React/*, { useState }*/ from "react";
+import React, { useState, useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
-/*
 import { useDispatch, useSelector } from "react-redux"
-// Link for changing routes.
-import { Link } from 'react-router-dom';
+// useNavigate for changing routes.
+import { useNavigate } from 'react-router-dom';
 // Import local styles
-import './style.module.css';
+import style from './style.module.css';
 // Import the actions needed.
 import { someAction } from '../../actions/index.js';
-*/
 
 export default function Search( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
-	//const [state,setState] = useState('default_value');
+	const [input,setInput] = useState('');
 	//// Bring things from the store.
 	//const store = useSelector(store => store);
 	//// Dispatch for making actions.
 	//const dispatch = useDispatch();
-	//
-	//// Functions here.
-	//function someFunction() {
-	//}
+	// useNavigate
+	const navigate = useNavigate();
+	
+	// Functions here.
+	function onSearch() {
+		if (input) navigate(`/videogames?search=${input}`);
+	}
+	function changeHandle(event) {
+		setInput(event.target.value);
+	}
+	
+	// Component Mount
+	useEffect(
+		// Enter Keypress listener.
+		() => window.addEventListener(
+			'keypress',
+			// If there's some input and the key enter was pressed, search.
+			(event) => input && event.keyCode === 13 && onSearch()
+		)
+	);
 	
 	// Structure of the component
 	return (
-		<h1>Search</h1>
+		<div className={style.component}>
+			<input type='text' placeholder='Search games...' 
+				minLength='1' maxLength='256' size='32' onChange={changeHandle}
+			></input>
+			<button onClick={onSearch}>Search</button>
+		</div>
 	);
 }

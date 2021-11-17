@@ -12,6 +12,8 @@ import { useParams } from 'react-router-dom';
 import style from  './style.module.css';
 // Import the actions needed.
 import { getGameDetail, setLoading } from '../../actions/index.js';
+// Import components
+import Loading from '../Loading'
 
 export default function Details( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
@@ -38,7 +40,7 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	
 	// - - Structure of the component
 	// Show the 'Loading' component while we retrieve the data.
-	if (loading) return (<h1>Loading...</h1>);
+	if (loading) return (<Loading/>);
 	// If there was an error in back, we show a message.
 	else if (gameDetail.msg) return (
 		<div>

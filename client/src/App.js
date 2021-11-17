@@ -11,7 +11,6 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import Search from './components/Search';
 import List from './components/List';
-import Pager from './components/Pager';
 import Details from './components/Details';
 import Form from './components/Form';
 
@@ -30,7 +29,7 @@ function App() {
 					{/* The Search component only appears in videogames
 							just like the Pager component*/}
 					<Route path='videogames' 
-						element={<> <Search /> <List /> <Pager /> </>} 
+						element={<> <Search /> <List /> </>} 
 					/>
 					<Route path='videogame/:id' 
 						element={<Details />}

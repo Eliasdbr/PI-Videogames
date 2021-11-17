@@ -22,7 +22,8 @@
 	background-color: #8884;
 	border: none;
 	border-radius: 0.7em;
-	padding: 0.7em;
+	padding: 0.4em;
+	margin: 4px;
 	transition: all .25s cubic-bezier(.22,.61,.36,1);
 }
 /* Hovering those buttons */
@@ -32,10 +33,10 @@
 
 /* All inputs who are children of App*/
 .App * input {
-	background-color: #8888;
+	background-color: #8886;
 	border: none;
 	border-radius: 0.7em;
-	padding: 0.7em;
+	padding: 0.4em;
 }
 
 /* Dark mode */
