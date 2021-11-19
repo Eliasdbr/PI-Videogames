@@ -32,7 +32,10 @@ export default function Card( { id, name, bg_url, genres } ){
 	return (<>
 		<div className={style.component} onClick={goToGame} >
 			<img src={bg_url} width='400'/>
-			<p>{name}</p>
+			<h4 className={style.title}>{name}</h4>
+			<p className={style.genres}>{
+				genres?.map(genre => genre.name).join(', ')
+			}</p>
 		</div>
 	</>);
 }

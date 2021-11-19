@@ -60,7 +60,7 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 			<select name='type' onChange={(e) => changeHandle(e,'sort')}
 				value={filtering.sort.type}>
 				<option value='none'>None</option>
-				<option value='alpha'>Name</option>
+				<option value='name'>Name</option>
 				<option value='rating'>Rating</option>
 			</select>
 			<label>Order: </label>

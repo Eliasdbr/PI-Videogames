@@ -76,7 +76,7 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 		? (<Loading/>)
 		: (<div className={style.component}>
 				{/* Card for testing */}
-			{ paginatedResults.map( result => (
+			{ paginatedResults[currentPage]?.map( result => (
 				<Card key={result.id}
 					id={result.id}
 					name={result.name}

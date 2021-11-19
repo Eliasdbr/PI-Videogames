@@ -8,6 +8,7 @@ import getGameDetail from './getGameDetail.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
 import setFiltering from './setFiltering.js';
+import setPage from './setPage.js';
 import resetResponse from './resetResponse.js';
 import paginateResults from './paginateResults.js';
 
@@ -19,6 +20,7 @@ export {
 	toggleDarkMode,
 	setLoading,
 	setFiltering,
+	setPage,
 	resetResponse,
 	paginateResults,
 };

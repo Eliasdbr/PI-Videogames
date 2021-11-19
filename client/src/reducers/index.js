@@ -9,6 +9,7 @@ import getGameDetail from './getGameDetail.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
 import setFiltering from './setFiltering.js';
+import setPage from './setPage.js';
 import resetResponse from './resetResponse.js';
 import paginateResults from './paginateResults.js';
 
@@ -52,6 +53,7 @@ export default function rootReducer(store = initialState, action) {
 		case 'TOGGLE_DARK_MODE': return toggleDarkMode(store);
 		case 'SET_LOADING': return setLoading(store);
 		case 'SET_FILTERING': return setFiltering(store,action.payload);
+		case 'SET_PAGE': return setPage(store,action.payload);
 		case 'RESET_RESPONSE': return resetResponse(store);
 		case 'PAGINATE_RESULTS': return paginateResults(store,action.payload);
 		

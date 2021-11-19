@@ -35,8 +35,10 @@ export default function Nav( /* { prop1, prop2, prop3... } */ ){
 			<div className={style.component}>
 				<Links />
 				{/* Light/Dark Mode */}
+				{/*
 				<button onClick={() => dispatch(toggleDarkMode())}
 				>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
+				*/}
 			</div>
 		<Outlet />
 		</>
