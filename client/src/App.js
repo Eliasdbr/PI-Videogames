@@ -1,7 +1,8 @@
 // Import dependencies
-import React/*, { useState }*/ from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getGenres, getPlatforms } from './actions';
 
 // Global Styles
 import './styles/App.css';
@@ -10,13 +11,31 @@ import './styles/App.css';
 import Home from './components/Home';
 import Nav from './components/Nav';
 import Search from './components/Search';
+import Filter from './components/Filter';
+import Pager from './components/Pager';
 import List from './components/List';
 import Details from './components/Details';
 import Form from './components/Form';
 
 function App() {
 	// Get things from the Store
-	const darkMode = useSelector(store => store.darkMode);
+	const { 
+		darkMode,
+		genres,
+		platforms,
+		loading
+	} = useSelector(store => store);
+	// useDispatch to perform actions
+	const dispatch = useDispatch();
+	// Component Mount
+	useEffect(
+		() => {
+			if (!genres.length) dispatch(getGenres());
+			if (!platforms.length) dispatch(getPlatforms());
+		},
+		[]
+	);
+	
 	return (
 		<div className={`App ${darkMode ? 'dark' : 'light'}`}>
 			{/* Content Routes */}
@@ -29,7 +48,13 @@ function App() {
 					{/* The Search component only appears in videogames
 							just like the Pager component*/}
 					<Route path='videogames' 
-						element={<> <Search /> <List /> </>} 
+						element={(<> 
+							<Search /> 
+							<Filter /> 
+							<Pager />
+							<List />
+							<Pager />
+						</>)} 
 					/>
 					<Route path='videogame/:id' 
 						element={<Details />}

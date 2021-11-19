@@ -8,6 +8,9 @@ import getPlatforms from './getPlatforms.js';
 import getGameDetail from './getGameDetail.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
+import setFiltering from './setFiltering.js';
+import resetResponse from './resetResponse.js';
+import paginateResults from './paginateResults.js';
 
 // Store's initial state.
 // Main structure of the store
@@ -16,16 +19,19 @@ const initialState = {
 	
 	paginatedResults: [],
 	
+	currentPage: 0,
+	
 	gameDetail: {},
 	
-	sort: {
-		type: 'none', // none, alpha, rating,
-		ord: 'asc',	// asc, desc
-	},
-	
-	filter: {
-		genre: null, // null, genre_id
-		procedence: null, // null, api, db
+	filtering: {
+		sort: {
+			type: 'none', // none, alpha, rating,
+			ord: 'asc',	// asc, desc
+		},
+		filter: {
+			genres: 'all', // all, genre_name
+			id: 'all', // all, 'A', 'L'
+		},
 	},
 	
 	genres: [],
@@ -45,6 +51,9 @@ export default function rootReducer(store = initialState, action) {
 		case 'GET_GAME_DETAIL': return getGameDetail(store,action.payload);
 		case 'TOGGLE_DARK_MODE': return toggleDarkMode(store);
 		case 'SET_LOADING': return setLoading(store);
+		case 'SET_FILTERING': return setFiltering(store,action.payload);
+		case 'RESET_RESPONSE': return resetResponse(store);
+		case 'PAGINATE_RESULTS': return paginateResults(store,action.payload);
 		
 		default: return store;
 	}

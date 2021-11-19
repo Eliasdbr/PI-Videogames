@@ -10,22 +10,25 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
-// Import the actions needed.
-import { someAction } from '../../actions/index.js';
+// Import needed actions
+import { resetResponse } from '../../actions';
 
 export default function Search( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
 	const [input,setInput] = useState('');
 	//// Bring things from the store.
 	//const store = useSelector(store => store);
-	//// Dispatch for making actions.
-	//const dispatch = useDispatch();
+	// Dispatch for making actions.
+	const dispatch = useDispatch();
 	// useNavigate
 	const navigate = useNavigate();
 	
 	// Functions here.
 	function onSearch() {
-		if (input) navigate(`/videogames?search=${input}`);
+		if (input) {
+			dispatch(resetResponse());
+			navigate(`/videogames?search=${input}`);
+		}
 	}
 	function changeHandle(event) {
 		setInput(event.target.value);
@@ -38,7 +41,8 @@ export default function Search( /* { prop1, prop2, prop3... } */ ){
 			'keypress',
 			// If there's some input and the key enter was pressed, search.
 			(event) => input && event.keyCode === 13 && onSearch()
-		)
+		),
+		[]
 	);
 	
 	// Structure of the component

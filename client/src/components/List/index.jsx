@@ -11,16 +11,25 @@ import { useLocation } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
 // Import the actions needed.
-import { getVideogames, setLoading } from '../../actions/index.js';
+import {
+	getVideogames,
+	setLoading,
+	paginateResults
+} from '../../actions/index.js';
 // Import components
 import Loading from '../Loading'
-import Pager from '../Pager'
+import Card from '../Card'
 
 export default function List( /* { prop1, prop2, prop3... } */ ){
-	//// Define the states.
-	//const [state,setState] = useState('default_value');
 	// Bring things from the store.
-	const {response, loading} = useSelector(store => store);
+	const {
+		response,
+		paginatedResults,
+		loading,
+		currentPage
+	} = useSelector(store => store);
+	//// Define the states.
+	// const [thisLoading,setThisLoading] = useState(false);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
 	// useLocation to get the query params
@@ -48,32 +57,48 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 		return queryObj;
 	}
 	
-	// Component mount
+	// Component update: location
 	useEffect(
 		() => {
-			dispatch(setLoading());
-			let query = parseQuery(location);
-			// We comment it for now to avoid multiple calls to the api
-			dispatch(getVideogames(query.search));
+			// If we have results already, we don't need to request again.
+			if (!response.length) {
+				if (!loading) dispatch(setLoading());
+				let query = parseQuery(location);
+				dispatch(getVideogames(query.search));
+			}
 		},
-		[dispatch,location]
+		[location]
 	);
 	
 	// - - Structure of the component
 	// Show the 'Loading' component while we retrieve the data.
-	if (loading) return (<Loading/>);
+	return loading 
+		? (<Loading/>)
+		: (<div className={style.component}>
+				{/* Card for testing */}
+			{ paginatedResults.map( result => (
+				<Card key={result.id}
+					id={result.id}
+					name={result.name}
+					bg_url={result.background_url}
+					genres={result.genres}
+				/>)
+				)}
+			</div>);
 	// If there was an error in back, we show a message.
-	else if (response.msg) return (
+	/*
+	if (response.msg) return (
 		<div>
-			<h1>Error</h1>
+			<h1>Whoops...</h1>
 			<h3>{response.msg}</h3>
 		</div>
 	);
-	return (
-		<div className={style.component}>
-			<Pager/>
-			<h1>List</h1>
-			<Pager/>
+	
+	else if (!paginatedResults.length) return (
+		<div>
+			<h1>Whoops...</h1>
+			<h3>No games found matching the search criteria.</h3>
 		</div>
 	);
+	*/
 }

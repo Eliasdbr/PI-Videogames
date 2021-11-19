@@ -28,7 +28,12 @@
 }
 /* Hovering those buttons */
 .App * button:hover {
-	background-color: #8888;
+	background-color: #888A;
+}
+/* Disabled buttons */
+.App * button:disabled {
+	opacity: 50%;
+	background-color: #8884;
 }
 
 /* All inputs who are children of App*/
@@ -39,6 +44,23 @@
 	padding: 0.4em;
 }
 
+/* All selects who are children of App*/
+.App * select {
+	background-color: #8886;
+	border: none;
+	/*border-radius: 0.7em;*/
+	padding: 0.4em;
+}
+/* Hovering those selects */
+.App * select:hover {
+	background-color: #888A;
+}
+/* Disabled selects */
+.App * select:disabled {
+	opacity: 50%;
+	background-color: #8884;
+}
+
 /* Dark mode */
 .dark {
 	background-color: #223;
@@ -46,6 +68,8 @@
 }
 .dark * {
 	color: #FFE;
+	/*background-color: #223;*/
+	/*backdrop-filter: opacity(0);*/
 }
 
 /* Light mode */
@@ -55,4 +79,6 @@
 }
 .light * {
 	color: #223;
+	/*background-color: #FFE;*/
+	/*backdrop-filter: opacity(0);*/
 }

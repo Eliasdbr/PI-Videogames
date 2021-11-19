@@ -5,6 +5,6 @@
 export default function setLoading(store) {
 	return {
 		...store,
-		loading: true,
+		loading: store.loading || true,
 	}
 };

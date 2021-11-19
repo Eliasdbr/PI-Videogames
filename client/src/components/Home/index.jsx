@@ -16,8 +16,8 @@ import { getGenres, getPlatforms } from '../../actions/index.js';
 export default function Home( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
 	//const [state,setState] = useState('default_value');
-	//// Bring things from the store.
-	//const store = useSelector(store => store);
+	// Bring things from the store.
+	const {genres, platforms} = useSelector(store => store);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
 	// Instead of using link, we use navigate for the 'Start!' Button
@@ -27,15 +27,6 @@ export default function Home( /* { prop1, prop2, prop3... } */ ){
 	//function someFunction() {
 	//}
 	//
-	// Component Mount
-	// I think this should be at the start of Submit.
-	useEffect(
-		() => {
-			dispatch(getGenres());
-			dispatch(getPlatforms());
-		},
-		[]
-	);
 	
 	// Structure of the component
 	return (

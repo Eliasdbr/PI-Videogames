@@ -32,8 +32,10 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	// Component Mount
 	useEffect(
 		() => {
-			dispatch(setLoading());
-			dispatch(getGameDetail(id));
+			if (id !== gameDetail.id) {
+				dispatch(setLoading());
+				dispatch(getGameDetail(id));
+			}
 		},
 		[id, dispatch]
 	);

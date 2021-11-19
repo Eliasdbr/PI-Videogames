@@ -7,6 +7,9 @@ import getPlatforms from './getPlatforms.js';
 import getGameDetail from './getGameDetail.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
+import setFiltering from './setFiltering.js';
+import resetResponse from './resetResponse.js';
+import paginateResults from './paginateResults.js';
 
 export {
 	getGenres,
@@ -15,4 +18,7 @@ export {
 	getGameDetail,
 	toggleDarkMode,
 	setLoading,
+	setFiltering,
+	resetResponse,
+	paginateResults,
 };
