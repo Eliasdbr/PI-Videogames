@@ -5,6 +5,7 @@ import getGenres from './getGenres.js';
 import getVideogames from './getVideogames.js';
 import getPlatforms from './getPlatforms.js';
 import getGameDetail from './getGameDetail.js';
+import postGame from './postGame.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
 import setFiltering from './setFiltering.js';
@@ -17,6 +18,7 @@ export {
 	getVideogames,
 	getPlatforms,
 	getGameDetail,
+	postGame,
 	toggleDarkMode,
 	setLoading,
 	setFiltering,

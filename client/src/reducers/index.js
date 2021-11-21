@@ -6,6 +6,7 @@ import getGenres from './getGenres.js';
 import getVideogames from './getVideogames.js';
 import getPlatforms from './getPlatforms.js';
 import getGameDetail from './getGameDetail.js';
+import postGame from './postGame.js';
 import toggleDarkMode from './toggleDarkMode.js';
 import setLoading from './setLoading.js';
 import setFiltering from './setFiltering.js';
@@ -50,6 +51,7 @@ export default function rootReducer(store = initialState, action) {
 		case 'GET_PLATFORMS': return getPlatforms(store,action.payload);
 		case 'GET_VIDEOGAMES': return getVideogames(store,action.payload);
 		case 'GET_GAME_DETAIL': return getGameDetail(store,action.payload);
+		case 'POST_GAME': return postGame(store,action.payload);
 		case 'TOGGLE_DARK_MODE': return toggleDarkMode(store);
 		case 'SET_LOADING': return setLoading(store);
 		case 'SET_FILTERING': return setFiltering(store,action.payload);

@@ -15,6 +15,7 @@ module.exports = async function(name) {
 		// Also include genres of the game.
 		include: {
 			model: Genre,
+			as: 'genres',
 			attributes: ['id','name'],
 			through: {attributes: []},
 		},

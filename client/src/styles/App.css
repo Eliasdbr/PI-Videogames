@@ -25,10 +25,16 @@
 	padding: 0.4em;
 	margin: 4px;
 	transition: all .25s cubic-bezier(.22,.61,.36,1);
+	box-shadow: 1px 1px 10px 0px #0028;
 }
 /* Hovering those buttons */
 .App * button:hover {
 	background-color: #888A;
+}
+/* Pressing those buttons */
+.App * button:enabled:active {
+	background-color: #666A;
+	box-shadow: 1px 1px 10px 0px #0028 inset;
 }
 /* Disabled buttons */
 .App * button:disabled {
@@ -38,6 +44,16 @@
 
 /* All inputs who are children of App*/
 .App * input {
+	text-align: left;
+	background-color: #8886;
+	border: none;
+	border-radius: 0.7em;
+	padding: 0.4em;
+}
+/* All textareas who are children of App*/
+.App * textarea {
+	resize: none;
+	text-align: left;
 	background-color: #8886;
 	border: none;
 	border-radius: 0.7em;
@@ -54,6 +70,11 @@
 /* Hovering those selects */
 .App * select:hover {
 	background-color: #888A;
+}
+/* Pressing those selects */
+.App * select:enabled:active {
+	background-color: #666A;
+	box-shadow: 1px 1px 10px 0px #0028 inset;
 }
 /* Disabled selects */
 .App * select:disabled {

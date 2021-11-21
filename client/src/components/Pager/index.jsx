@@ -45,11 +45,16 @@ export default function Pager( /* { prop1, prop2, prop3... } */ ){
 				}
 			)}
 			{/* Next Page */}
-			<button disabled={currentPage===paginatedResults.length-1}
-				onClick={()=>goToPage(currentPage+1)}>{'>'}</button>
+			<button disabled={
+				!paginatedResults.length || currentPage===paginatedResults.length-1
+				} onClick={()=>goToPage(currentPage+1)}
+			>{'>'}</button>
 			{/* Last Page */}
-			<button disabled={currentPage===paginatedResults.length-1}
-				onClick={()=>goToPage(paginatedResults.length-1)}>{'>>'}</button>
+			<button disabled={
+				!paginatedResults.length || currentPage===paginatedResults.length-1
+				}
+				onClick={()=>goToPage(paginatedResults.length-1)}
+			>{'>>'}</button>
 		</div>
 	);
 }

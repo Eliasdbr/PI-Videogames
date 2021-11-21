@@ -24,10 +24,15 @@ export default function Search( /* { prop1, prop2, prop3... } */ ){
 	const navigate = useNavigate();
 	
 	// Functions here.
-	function onSearch() {
+	function onSearch(event) {
+		event.preventDefault();
+		// Reset games list brought from back.
+		dispatch(resetResponse());
+		// If we have a search query, we include it
 		if (input) {
-			dispatch(resetResponse());
 			navigate(`/videogames?search=${input}`);
+		} else {
+			navigate(`/videogames`);
 		}
 	}
 	function changeHandle(event) {
@@ -35,23 +40,14 @@ export default function Search( /* { prop1, prop2, prop3... } */ ){
 	}
 	
 	// Component Mount
-	useEffect(
-		// Enter Keypress listener.
-		() => window.addEventListener(
-			'keypress',
-			// If there's some input and the key enter was pressed, search.
-			(event) => input && event.keyCode === 13 && onSearch()
-		),
-		[]
-	);
 	
 	// Structure of the component
 	return (
-		<div className={style.component}>
-			<input type='text' placeholder='Search games...' 
+		<form className={style.component} onSubmit={e => onSearch(e)}>
+			<input type='search' placeholder='Search games...' className={style.search} 
 				minLength='1' maxLength='256' size='32' onChange={changeHandle}
 			></input>
-			<button onClick={onSearch}>Search</button>
-		</div>
+			<button onClick={e => onSearch(e)}>Search</button>
+		</form>
 	);
 }

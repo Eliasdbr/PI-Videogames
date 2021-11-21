@@ -75,30 +75,22 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 	return loading 
 		? (<Loading/>)
 		: (<div className={style.component}>
-				{/* Card for testing */}
-			{ paginatedResults[currentPage]?.map( result => (
-				<Card key={result.id}
-					id={result.id}
-					name={result.name}
-					bg_url={result.background_url}
-					genres={result.genres}
-				/>)
-				)}
+			{ paginatedResults.length
+			? paginatedResults[currentPage]?.map( result => (
+					<Card key={result.id}
+						id={result.id}
+						name={result.name}
+						bg_url={result.background_url}
+						genres={result.genres}
+					/>)
+				)
+			: (<div className={style.info}>
+				<h1>Whoops...</h1>
+					<h3>{response.msg 
+						? response.msg
+						: 'No games found matching the search criteria.'
+					}</h3>
+				</div>)
+			}
 			</div>);
-	// If there was an error in back, we show a message.
-	/*
-	if (response.msg) return (
-		<div>
-			<h1>Whoops...</h1>
-			<h3>{response.msg}</h3>
-		</div>
-	);
-	
-	else if (!paginatedResults.length) return (
-		<div>
-			<h1>Whoops...</h1>
-			<h3>No games found matching the search criteria.</h3>
-		</div>
-	);
-	*/
 }

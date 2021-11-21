@@ -8,11 +8,13 @@ module.exports = async function(idNumber) {
 		{include: [
 			{
 				model: Genre,
+				as: 'genres',
 				attributes: ['id','name'],
 				through: {attributes: []},
 			},
 			{
 				model: Platform,
+				as: 'platforms',
 				attributes: ['id','name'],
 				through: {attributes: []},
 			},

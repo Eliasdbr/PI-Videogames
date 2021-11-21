@@ -1,6 +1,51 @@
 .component {
-	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	padding-bottom: 200px;
 }
-.component input {
-	text-align: start;
+.component button {
+	width: fit-content;
+	align-self: center;
+}
+.component textarea {
+	min-width: 300px;
+}
+.inputNorm {
+	min-width: 300px;
+	box-shadow: 3px 3px 10px 0px #1128 inset;
+}
+.inputCont {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	padding: 10px 10px;
+	border-bottom: 1px solid #0004;
+}
+.checkCont {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	padding: 10px 10px;
+	min-width: 360;
+	max-width: 480;
+	border-bottom: 1px solid #0004;
+}
+.check {
+	text-align: left;
+	width: 180px;
+}
+#desc {
+}
+.error {
+	color: #f44;
+	text-shadow: 1px 1px 10px #822a;
+}
+.inputError {
+	/*box-shadow: x y blur spread color inset*/
+	min-width: 300px;
+	box-shadow: 3px 3px 10px 0px #5118 inset;
+	/*box-shadow: 1px 1px 9px 0px #f44A ;*/
 }
