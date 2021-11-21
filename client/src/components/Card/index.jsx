@@ -22,6 +22,13 @@ export default function Card( { id, name, bg_url, genres } ){
 	//const dispatch = useDispatch();
 	// Navigate to change routes.
 	const navigate = useNavigate();
+	// Styles for setting the card background
+	const background_style = {
+		backgroundImage: `url(${bg_url})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+	};
 	
 	//// Functions here.
 	function goToGame(event) {
@@ -29,13 +36,14 @@ export default function Card( { id, name, bg_url, genres } ){
 	}
 	
 	// Structure of the component
-	return (<>
-		<div className={style.component} onClick={goToGame} >
-			<img src={bg_url} width='400'/>
+	return (
+		<div onClick={goToGame} className={style.component}
+			style={background_style}>
+			{/*<img src={bg_url} width='400'/>*/}
 			<h4 className={style.title}>{name}</h4>
 			<p className={style.genres}>{
 				genres?.map(genre => genre.name).join(', ')
 			}</p>
 		</div>
-	</>);
+	);
 }

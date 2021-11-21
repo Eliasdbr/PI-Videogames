@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
+// Default image path
+import defImg from '../../res/img/game_default.png';
 // Import the actions needed.
 import {
 	getVideogames,
@@ -80,7 +82,7 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 					<Card key={result.id}
 						id={result.id}
 						name={result.name}
-						bg_url={result.background_url}
+						bg_url={result.background_url || defImg}
 						genres={result.genres}
 					/>)
 				)

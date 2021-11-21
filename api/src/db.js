@@ -40,10 +40,10 @@ const {
 // -- Entity relations --
 // Videogame <*------*> Genre
 Videogame.belongsToMany(Genre,{ as: 'genres', through: 'Videogame_Genre', timestamps: false });
-Genre.belongsToMany(Videogame,{ as: 'genres', through: 'Videogame_Genre', timestamps: false });
+Genre.belongsToMany(Videogame,{ as: 'videogames', through: 'Videogame_Genre', timestamps: false });
 // Videogame <*------*> Platform
 Videogame.belongsToMany(Platform,{ as: 'platforms', through: 'Videogame_Platform', timestamps: false });
-Platform.belongsToMany(Videogame,{ as: 'platforms', through: 'Videogame_Platform', timestamps: false });
+Platform.belongsToMany(Videogame,{ as: 'videogames', through: 'Videogame_Platform', timestamps: false });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

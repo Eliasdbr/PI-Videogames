@@ -16,7 +16,7 @@ export default function paginateResults(response,filtering) {
 					value === 'all' 
 					|| ( Array.isArray(elem[prop]) 
 						? elem[prop].map(genre => genre.name.toLowerCase()).includes(value)
-						: elem[prop].includes(value)
+						: elem[prop].toLowerCase().includes(value)
 					)
 				); 
 			}

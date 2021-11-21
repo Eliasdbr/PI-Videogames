@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from 'react-router-dom';
 // Import local styles
 import style from  './style.module.css';
+// Default image path
+import defImg from '../../res/img/game_default.png';
 // Import the actions needed.
 import { getGameDetail, setLoading } from '../../actions/index.js';
 // Import components
@@ -24,6 +26,14 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	const { gameDetail, loading } = useSelector(store => store);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
+	// Styles for setting the card background
+	const background_style = {
+		backgroundImage: `url(${gameDetail.background_url || defImg})`,
+		backgroundRepeat: 'no-repeat',
+		backgroundSize: 'cover',
+		backgroundPosition: 'center',
+		backgroundAttachment: 'fixed',
+	};
 	
 	//// Functions here.
 	//function someFunction() {
@@ -51,8 +61,8 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 		</div>
 	);
 	else return (
-		<div className={style.component}>
-			<img src={gameDetail.background_url} alt='No image.'/>
+		<div className={style.component} style={background_style}>
+			<div className={style.imgContainer}></div>
 			<div className={style.data}>
 				<h1>{gameDetail.name}</h1>
 				<h3>{gameDetail.genres?.map(genre => genre.name).join(', ')}</h3>

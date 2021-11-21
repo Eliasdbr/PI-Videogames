@@ -1,19 +1,18 @@
 .component {
-	
-}
-.component img {
-	width: 100vw;
-	position: fixed;
-	top: 0;
-	left: 0;
-	opacity: 25%;
+	min-height: 100vh;
 }
 .description {
 	white-space: pre-line;
 	text-align: left;
 	margin: 20px 10%;
 }
+.imgContainer {
+	height: 80vh;
+}
 .data {
 	position: relative;
+	padding-bottom: 200px;
 	z-index: 1;
+	background-color: #2238;
+	backdrop-filter: blur(2px);
 }

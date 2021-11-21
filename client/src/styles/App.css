@@ -1,6 +1,17 @@
 /*
  *	Global Styles
  * */
+/* Animations */
+@keyframes showUp {
+	0% { opacity: 0%; }
+	100% { opacity: 100%;}
+}
+@keyframes goAway {
+	0% { opacity: 100%; }
+	100% { opacity: 0%;}
+}
+
+
 /* App styles*/
 .App {
 	background-image: none;
@@ -15,6 +26,7 @@
 	/* For debugging only */
 	/*padding: 4px; 
 	border: 2px solid gray; */
+	animation: showUp .5s ease-out;
 }
 
 /* All buttons who are children of App*/
