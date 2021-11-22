@@ -7,6 +7,7 @@
 	margin: 4px;
 	text-shadow: black 1px 1px 2px;
 	border-radius: 0.5em;
+	background-image: url('../../res/img/game_default.png');
 }
 .title {
 	position: absolute;

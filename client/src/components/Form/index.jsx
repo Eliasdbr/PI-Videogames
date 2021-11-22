@@ -7,13 +7,14 @@ import React, { useState, useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // Link for changing routes.
-// import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
 // Import the actions needed.
 import { postGame, setLoading } from '../../actions/index.js';
 // Import the necessary components.
 import Loading from '../Loading';
+import PopUp from '../PopUp';
 
 export default function Form( /* { prop1, prop2, prop3... } */ ){
 	// Define the states.
@@ -31,6 +32,74 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	const store = useSelector(store => store);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
+	// Use Navigate
+	const navigate = useNavigate();
+
+	// Validation RegExps
+	/* source: http://urlregex.com/ */ 
+	const regexUrl =/^$|((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i;
+	const regexNotEmpty = /(?!^$)/; 
+	// Setting up the form fields.
+	const fields = [
+		{
+			name: 'name', 
+			label: 'Name',
+			type: 'text',
+			placeholder: '"Super Mario Bros."',
+			required: true,
+			validation: regexNotEmpty,
+			min: 1, max: 32,
+		},{
+			name: 'desc',
+			label: 'Description',
+			type: 'text-area',
+			placeholder: '"Play as the beloved plumber and rescue the princess in this classic of platformers."',
+			required: true,
+			validation: regexNotEmpty,
+			min: 1, max: 256, size: 8
+		},{
+			name: 'date', 
+			label: 'Release date',
+			type: 'date',
+			required: false,
+			min: null, max: null, size: null
+		},{
+			name: 'rate',
+			label: 'Rating',
+			type: 'range',
+			min: 0,
+			max: 5,
+			required: false,
+			size: null,
+		},{ 
+			name: 'bg_url',
+			label: 'Image URL',
+			type: 'url',
+			placeholder: '"http://image.address.example/1a2b3c4d"',
+			required: false,
+			validation: regexUrl,
+			min: 1, max: 256, size: 32
+		},
+		// Genres
+		{
+			name: 'genres',
+			label: 'Genres',
+			type: 'check',
+			placeholder: null,
+			required: false,
+			min: null, max: null, size: null,
+		},
+		// Platforms *
+		{
+			name: 'platforms',
+			label: 'Platforms',
+			type: 'check',
+			placeholder: null,
+			required: true,
+			validation: regexNotEmpty,
+			min: null, max: null, size: null,
+		}
+	];
 	
 	// Functions here.
 	function submitHandle(event) {
@@ -47,11 +116,17 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	// Update error message
 	function updateErrorMsg() {
 		// Input control
-		if (!input.name) setErrorMsg('You need to specify a valid name.');
-		else if (!input.desc) setErrorMsg('You need to specify a description.');
-		else if (input.platforms.length <= 0) 
+		if (!input.name) {
+			setErrorMsg('You need to specify a valid name.');
+		} else if (!input.desc) {
+			setErrorMsg('You need to specify a description.');
+		} else if (!regexUrl.test(input.bg_url)) {
+			setErrorMsg('If you want to provide an URL, make sure it\'s correct.');
+		} else if (input.platforms.length <= 0) {
 			setErrorMsg('You need select at least one Platform.');
-		else setErrorMsg('');
+		} else {
+			setErrorMsg('');
+		}
 	}
 	// Listens to input changes
 	function changeHandle(event) {
@@ -84,63 +159,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		[input]
 	);
 	
-	const fields = [
-		{
-			name: 'name', 
-			label: 'Name',
-			type: 'text',
-			placeholder: '"Super Mario Bros."',
-			required: true,
-			min: 1, max: 32,
-		},{
-			name: 'desc',
-			label: 'Description',
-			type: 'text-area',
-			placeholder: '"Play as the beloved plumber and rescue the princess in this classic of platformers."',
-			required: true,
-			min: 1, max: 256, size: 8
-		},{
-			name: 'date', 
-			label: 'Release date',
-			type: 'date',
-			required: false,
-			min: null, max: null, size: null
-		},{
-			name: 'rate',
-			label: 'Rating',
-			type: 'range',
-			min: 0,
-			max: 5,
-			required: false,
-			size: null,
-		},{ 
-			name: 'bg_url',
-			label: 'Image URL',
-			type: 'url',
-			placeholder: '"http://image.address.example/1a2b3c4d"',
-			required: false,
-			min: 1, max: 256, size: 32
-		},
-		// Genres
-		{
-			name: 'genres',
-			label: 'Genres',
-			type: 'check',
-			placeholder: null,
-			required: false,
-			min: null, max: null, size: null,
-		},
-		// Platforms *
-		{
-			name: 'platforms',
-			label: 'Platforms',
-			type: 'check',
-			placeholder: null,
-			required: true,
-			min: null, max: null, size: null,
-		}
-		
-	];
 	
 	// Structure of the component
 	return (
@@ -149,7 +167,12 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 			{store.loading 
 				? (<Loading/>) 
 				: store.response.msg 
-					? (<h1>Response from Back</h1>)
+					? (
+						<PopUp title={store.response.created ? 'Success' : 'Error'}
+							description={store.response.msg}
+							okName='View Game Details'
+							okAction={() => navigate(`/videogame/${store.response.id}`)}
+						/>)
 			:(<form onSubmit={submitHandle} className={style.component}>
 				{/* We iterate each form item */}
 				{fields.map(
@@ -157,8 +180,9 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 						{/* Item Label */}
 						<label key={field.name+'_item_label'}
 							className={
-								(!input[field.name] || !input[field.name].length )
-								&& field.required ? style.error : ''
+								(field.validation && !field.validation.test(input[field.name])) 
+								|| (!input[field.name].length && field.required)
+								? style.error : ''
 							}
 						>
 							{field.label + (field.required ? '*' : '')}:
@@ -174,8 +198,8 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 								? field.type === 'text-area'
 									? (<textarea id={field.name} key={field.name+'_form_textarea'}
 												className={
-													!input[field.name] && field.required 
-														? style.inputError : style.desc
+													(field.validation && !field.validation.test(input[field.name])) 
+													? style.inputError : style.inputNorm
 												}
 												name={field.name} 
 												placeholder={field.placeholder || null} 
@@ -186,8 +210,8 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 									: (
 									<input id={field.name} key={field.name+'_form_input'}
 										className={
-											!input[field.name] && field.required 
-												? style.inputError : style.inputNorm
+											(field.validation && !field.validation.test(input[field.name])) 
+											? style.inputError : style.inputNorm
 										}
 										type={field.type} name={field.name} 
 										placeholder={field.placeholder || null} 

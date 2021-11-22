@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // useLocation for query params.
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
 // Default image path
@@ -21,6 +21,7 @@ import {
 // Import components
 import Loading from '../Loading'
 import Card from '../Card'
+import PopUp from '../PopUp'
 
 export default function List( /* { prop1, prop2, prop3... } */ ){
 	// Bring things from the store.
@@ -36,6 +37,8 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 	const dispatch = useDispatch();
 	// useLocation to get the query params
 	const location = useLocation();
+	// Use navigate
+	const navigate = useNavigate();
 	
 	// Functions here.
 	// Turns a route query string into an object
@@ -86,13 +89,10 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 						genres={result.genres}
 					/>)
 				)
-			: (<div className={style.info}>
-				<h1>Whoops...</h1>
-					<h3>{response.msg 
-						? response.msg
-						: 'No games found matching the search criteria.'
-					}</h3>
-				</div>)
+			: (<PopUp 
+					title='Hmmm...' 
+					description='No available games match the search criteria.'
+				/>)
 			}
 			</div>);
 }

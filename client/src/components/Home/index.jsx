@@ -13,6 +13,8 @@ import style from './style.module.css';
 // Import the actions needed.
 import { getGenres, getPlatforms } from '../../actions/index.js';
 
+import PopUp from '../PopUp';
+
 export default function Home( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
 	//const [state,setState] = useState('default_value');
@@ -36,6 +38,12 @@ export default function Home( /* { prop1, prop2, prop3... } */ ){
 			<button onClick={
 				() => navigate('/videogames')
 			} >Start!</button>
+			<PopUp 
+				title='Hola Mundo!'
+				description='Esta es una prueba del PopUp que creé, espero que funcione.'
+				okName='Crear Juego'
+				okAction={()=>navigate('/submit')}
+			/>
 		</div>
 	);
 }

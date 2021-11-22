@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // useParams to get the ID given in the route.
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 // Import local styles
 import style from  './style.module.css';
 // Default image path
@@ -16,6 +16,7 @@ import defImg from '../../res/img/game_default.png';
 import { getGameDetail, setLoading } from '../../actions/index.js';
 // Import components
 import Loading from '../Loading'
+import PopUp from '../PopUp'
 
 export default function Details( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
@@ -26,6 +27,8 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	const { gameDetail, loading } = useSelector(store => store);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
+	// useNavigate to change routes.
+	const navigate = useNavigate();
 	// Styles for setting the card background
 	const background_style = {
 		backgroundImage: `url(${gameDetail.background_url || defImg})`,
@@ -55,10 +58,10 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	if (loading) return (<Loading/>);
 	// If there was an error in back, we show a message.
 	else if (gameDetail.msg) return (
-		<div>
-			<h1>Error</h1>
-			<h3>{gameDetail.msg}</h3>
-		</div>
+		<PopUp title='Hmmm...'
+			description={gameDetail.msg}
+			cancelAction={() => navigate('/videogames')}
+		/>
 	);
 	else return (
 		<div className={style.component} style={background_style}>
