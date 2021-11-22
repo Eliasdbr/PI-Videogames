@@ -34,16 +34,10 @@ export default function Home( /* { prop1, prop2, prop3... } */ ){
 	return (
 		<div className={style.component}>
 			<h1>Buffer Games</h1>
-			<h4>What will you master next?</h4>
+			<h2>What will you master next?</h2>
 			<button onClick={
 				() => navigate('/videogames')
 			} >Start!</button>
-			<PopUp 
-				title='Hola Mundo!'
-				description='Esta es una prueba del PopUp que creé, espero que funcione.'
-				okName='Crear Juego'
-				okAction={()=>navigate('/submit')}
-			/>
 		</div>
 	);
 }

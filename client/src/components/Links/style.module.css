@@ -3,11 +3,14 @@
 	justify-content: center;
 }
 .link {
-	padding: 10px;
+	padding: .9em;
+	font-size: 1.1em;
 	text-decoration: none;
-	/*color: #68E;*/
+}
+.link:hover {
+	text-shadow: 2px 2px 4px #A8F;
 }
 .linkActive {
-	background-color: #8888;
-	/* color: #E86; */
+	background-color: #4365;
+	box-shadow: 2px 2px 4px 0px #0005 inset;
 }

@@ -1,8 +1,7 @@
 .component {
-	position: sticky;
 	width: 100%;
-	z-index: 2;
+	z-index: 5;
 	display: flex;
 	justify-content: center;
-	background-color: #8884;
+	background-color: #223;
 }

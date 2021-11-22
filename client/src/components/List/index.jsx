@@ -87,6 +87,7 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 						name={result.name}
 						bg_url={result.background_url || defImg}
 						genres={result.genres}
+						rate={result.rating}
 					/>)
 				)
 			: (<PopUp 

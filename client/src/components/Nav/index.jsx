@@ -31,16 +31,13 @@ export default function Nav( /* { prop1, prop2, prop3... } */ ){
 	
 	// Structure of the component
 	return (
-		<>
-			<div className={style.component}>
-				<Links />
-				{/* Light/Dark Mode */}
-				{/*
-				<button onClick={() => dispatch(toggleDarkMode())}
-				>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
-				*/}
-			</div>
-		<Outlet />
-		</>
+		<div className={style.component + ' NAV'}>
+			<Links />
+			{/* Light/Dark Mode */}
+			{/*
+			<button onClick={() => dispatch(toggleDarkMode())}
+			>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
+			*/}
+		</div>
 	);
 }

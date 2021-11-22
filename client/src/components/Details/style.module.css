@@ -4,15 +4,23 @@
 .description {
 	white-space: pre-line;
 	text-align: left;
-	margin: 20px 10%;
+	padding: 20px 10%;
 }
 .imgContainer {
-	height: 80vh;
+	height: calc(100vh - 75px - 3em);
 }
 .data {
 	position: relative;
 	padding-bottom: 200px;
 	z-index: 1;
+	background-color: #2238;
+	backdrop-filter: blur(2px);
+}
+.title {
+	position: sticky;
+	z-index: 2;
+	top: 3em;
+	height: 75px;
 	background-color: #2238;
 	backdrop-filter: blur(2px);
 }

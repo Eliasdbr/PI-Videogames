@@ -13,7 +13,7 @@ import style from './style.module.css';
 // Import the actions needed.
 // import { someAction } from '../../actions/index.js';
 
-export default function Card( { id, name, bg_url, genres } ){
+export default function Card( { id, name, bg_url, genres, rate } ){
 	//// Define the states.
 	//const [state,setState] = useState('default_value');
 	//// Bring things from the store.
@@ -41,9 +41,16 @@ export default function Card( { id, name, bg_url, genres } ){
 			style={background_style}>
 			{/*<img src={bg_url} width='400'/>*/}
 			<h4 className={style.title}>{name}</h4>
-			<p className={style.genres}>{
-				genres?.map(genre => genre.name).join(', ')
-			}</p>
+			<div className={style.info}>
+				<p className={style.rate}>🟊 {rate} / 5.00</p>
+				<p className={style.genres}>{
+					genres.length <= 6
+					? genres?.map(genre => genre.name).join(', ')
+					: genres?.filter((genre,i) => i<6 && genre.name)
+									 .map(genre => genre.name).join(', ')
+									 .concat(' and more...')
+				}</p>
+			</div>
 		</div>
 	);
 }

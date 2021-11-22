@@ -11,12 +11,22 @@
 	100% { opacity: 0%;}
 }
 
+/* Import Rajdhani font from Google Fonts */
+@font-face {
+	font-family: 'Rajdhani-Light';
+	src: url('../res/font/Rajdhani-Light.ttf');
+}
+@font-face {
+	font-family: 'Rajdhani-SemiBold';
+	src: url('../res/font/Rajdhani-SemiBold.ttf');
+}
 
 /* App styles*/
 .App {
 	background-image: none;
 	width: 100%;
 	min-height: 100vh;
+	padding-bottom: 200px;
 }
 /* App children */
 .App * {
@@ -27,6 +37,12 @@
 	/*padding: 4px; 
 	border: 2px solid gray; */
 	animation: showUp .5s ease-out;
+	
+	font-family: 'Rajdhani-SemiBold', sans-serif;
+}
+/* App children fonts */
+.App * h1, h2, h3 {
+	font-family: 'Rajdhani-Light', sans-serif;
 }
 
 /* All buttons who are children of App*/
@@ -92,6 +108,13 @@
 .App * select:disabled {
 	opacity: 50%;
 	background-color: #8884;
+}
+
+/* Sticky Nav */
+.NAV {
+	position: sticky;
+	top: 0;
+	height: 3em;
 }
 
 /* Dark mode */

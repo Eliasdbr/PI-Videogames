@@ -1,6 +1,6 @@
 // Import dependencies
 import React, { useEffect } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getGenres, getPlatforms } from './actions';
 
@@ -44,7 +44,7 @@ function App() {
 					element={<Home />} 
 				/>
 				{/* The Navigation Bar is everywhere except in Home. */} 
-				<Route path='/*' element={<Nav />} >
+				<Route path='/*' element={<><Nav /><Outlet/></>} >
 					{/* The Search component only appears in videogames
 							just like the Pager component*/}
 					<Route path='videogames' 

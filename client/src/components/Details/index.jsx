@@ -66,9 +66,11 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 	else return (
 		<div className={style.component} style={background_style}>
 			<div className={style.imgContainer}></div>
-			<div className={style.data}>
-				<h1>{gameDetail.name}</h1>
+			<div className={style.title}>
+				<h1 >{gameDetail.name}</h1>
 				<h3>{gameDetail.genres?.map(genre => genre.name).join(', ')}</h3>
+			</div>
+			<div className={style.data}>
 				<p className={style.description}>{gameDetail.description}</p>
 				<h4>Available platforms:</h4>
 				<ul>

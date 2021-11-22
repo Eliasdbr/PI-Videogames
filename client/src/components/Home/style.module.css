@@ -1,5 +1,19 @@
 /* Component Styles */
 .component {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 0 10%;
 	min-height: 100vh;
 	background-image: url('https://images.hdqwalls.com/download/futuristic-city-4k-0v-2560x1440.jpg');
+}
+.component h1 {
+	font-size: 4em;
+	text-align: left;
+}
+
+.component button {
+	font-size: 2em;
+	width: fit-content;
 }
