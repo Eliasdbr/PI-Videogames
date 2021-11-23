@@ -20,6 +20,9 @@ module.exports = (sequelize) => {
 		description: {
 			type: DataTypes.STRING(1024),
 			allowNull: false,
+			validate: { 
+				notEmpty: true
+			},
 		},
 		release_date: {
 			type: DataTypes.STRING,
