@@ -42,7 +42,7 @@ export default function Card( { id, name, bg_url, genres, rate } ){
 			{/*<img src={bg_url} width='400'/>*/}
 			<h4 className={style.title}>{name}</h4>
 			<div className={style.info}>
-				<p className={style.rate}>🟊 {rate} / 5.00</p>
+				<p className={style.rate}>🟊 {rate ? `${rate} / 5` : 'N/A'}</p>
 				<p className={style.genres}>{
 					genres.length <= 6
 					? genres?.map(genre => genre.name).join(', ')

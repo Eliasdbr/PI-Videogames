@@ -56,7 +56,7 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 			e => {
 				let pair = e.split('=');
 				// Store each pair as a key=value pair in the queryObj.
-				queryObj[pair[0]] = pair[1];
+				queryObj[pair[0]] = pair[1].replace('%20', ' ');
 			}
 		);
 		return queryObj;
@@ -79,7 +79,11 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 	// Show the 'Loading' component while we retrieve the data.
 	return loading 
 		? (<Loading/>)
-		: (<div className={style.component}>
+		: (<>
+			{parseQuery(location).search 
+			&& (<h2>Games matching "{parseQuery(location).search}":</h2>)
+			}
+			<div className={style.component}>
 			{ paginatedResults.length
 			? paginatedResults[currentPage]?.map( result => (
 					<Card key={result.id}
@@ -93,7 +97,9 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 			: (<PopUp 
 					title='Hmmm...' 
 					description='No available games match the search criteria.'
+					cancelAction={()=>navigate('/videogames')}
 				/>)
 			}
-			</div>);
+			</div>
+		</>);
 }

@@ -49,11 +49,16 @@ function App() {
 							just like the Pager component*/}
 					<Route path='videogames' 
 						element={(<> 
-							<Search /> 
-							<Filter /> 
-							<Pager />
-							<List />
-							<Pager />
+							<div className='searchOptions'>
+								<Search /> 
+								<hr/>
+								<Filter /> 
+							</div>
+							<div className='listContainer'>
+								<Pager />
+								<List />
+								<Pager />
+							</div>
 						</>)} 
 					/>
 					<Route path='videogame/:id' 

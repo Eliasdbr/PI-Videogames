@@ -71,13 +71,19 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 				<h3>{gameDetail.genres?.map(genre => genre.name).join(', ')}</h3>
 			</div>
 			<div className={style.data}>
-				<p className={style.description}>{gameDetail.description}</p>
-				<h4>Available platforms:</h4>
-				<ul>
-					{gameDetail.platforms?.map(platform => <li key={platform.id}>{platform.name}</li>)}
-				</ul>
-				<p>Release date: {gameDetail.release_date}</p>
-				<p>Rating: {gameDetail.rating || 'N/A'}</p>
+				<div className={style.half1}>
+					<p className={style.description}>{gameDetail.description}</p>
+				</div>
+				<div className={style.half2}>
+					<div className={style.rateDate}>
+						<h1>🟊 {gameDetail.rating || 'N/A'}</h1>
+						<h1>⏲ {gameDetail.release_date}</h1>
+					</div>
+					<h2>Available platforms:</h2>
+					<ul>
+						{gameDetail.platforms?.map(platform => <li key={platform.id}>{platform.name}</li>)}
+					</ul>
+				</div>
 			</div>
 		</div>
 	);

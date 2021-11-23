@@ -26,7 +26,6 @@
 	background-image: none;
 	width: 100%;
 	min-height: 100vh;
-	padding-bottom: 200px;
 }
 /* App children */
 .App * {
@@ -41,7 +40,13 @@
 	font-family: 'Rajdhani-SemiBold', sans-serif;
 }
 /* App children fonts */
-.App * h1, h2, h3 {
+.App * h1 {
+	font-family: 'Rajdhani-Light', sans-serif;
+}
+.App * h2 {
+	font-family: 'Rajdhani-Light', sans-serif;
+}
+.App * h3 {
 	font-family: 'Rajdhani-Light', sans-serif;
 }
 
@@ -54,6 +59,7 @@
 	margin: 4px;
 	transition: all .25s cubic-bezier(.22,.61,.36,1);
 	box-shadow: 1px 1px 10px 0px #0028;
+	font-size: 14px;
 }
 /* Hovering those buttons */
 .App * button:hover {
@@ -77,6 +83,7 @@
 	border: none;
 	border-radius: 0.7em;
 	padding: 0.4em;
+	font-size: 14px;
 }
 /* All textareas who are children of App*/
 .App * textarea {
@@ -94,6 +101,7 @@
 	border: none;
 	/*border-radius: 0.7em;*/
 	padding: 0.4em;
+	margin: 1px;
 }
 /* Hovering those selects */
 .App * select:hover {
@@ -109,12 +117,29 @@
 	opacity: 50%;
 	background-color: #8884;
 }
+/* HRs */
+.App * hr {
+	color: #8884;
+	margin: 4px 20px;
+}
 
 /* Sticky Nav */
 .NAV {
 	position: sticky;
 	top: 0;
 	height: 3em;
+}
+/* Search & Filter Container */
+.searchOptions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 10px;
+	font-size: 16px;
+}
+.listContainer {
+	padding-top: 20px;
+	padding-bottom: 150px;
 }
 
 /* Dark mode */

@@ -1,26 +1,56 @@
 .component {
 	min-height: 100vh;
 }
-.description {
-	white-space: pre-line;
-	text-align: left;
-	padding: 20px 10%;
+.component ul {
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.component li {
+	text-align: center;
+	min-width: 50%;
 }
 .imgContainer {
 	height: calc(100vh - 75px - 3em);
-}
-.data {
-	position: relative;
-	padding-bottom: 200px;
-	z-index: 1;
-	background-color: #2238;
-	backdrop-filter: blur(2px);
 }
 .title {
 	position: sticky;
 	z-index: 2;
 	top: 3em;
 	height: 75px;
-	background-color: #2238;
+	background-color: #223A;
 	backdrop-filter: blur(2px);
+}
+.data {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-bottom: 200px;
+	z-index: 1;
+	background-color: #223A;
+	backdrop-filter: blur(2px);
+}
+.half1 {
+	min-width: 360px;
+	max-width: 60%;
+	display: flex;
+	justify-content: center;
+}
+.description {
+	white-space: pre-line;
+	text-align: justify;
+	min-width: 300px;
+	max-width: 90%;
+}
+.half2 {
+	min-width: 360px;
+	max-width: 40%;
+}
+.rateDate {
+	display: flex;
+	justify-content: center;
+}
+.rateDate h1 {
+	padding: 10px;
 }

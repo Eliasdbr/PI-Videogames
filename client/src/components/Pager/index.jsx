@@ -32,7 +32,7 @@ export default function Pager( /* { prop1, prop2, prop3... } */ ){
 	return (
 		<div className={style.component}>
 			{/* First Page*/}
-			<button disabled={currentPage===0}
+			<button disabled={currentPage===0} className={style.leftBtn}
 				onClick={()=>goToPage(0)}>{'<<'}</button>
 			{/* Previous Page*/}
 			<button disabled={currentPage===0}
@@ -52,7 +52,7 @@ export default function Pager( /* { prop1, prop2, prop3... } */ ){
 			{/* Last Page */}
 			<button disabled={
 				!paginatedResults.length || currentPage===paginatedResults.length-1
-				}
+				} className={style.rightBtn}
 				onClick={()=>goToPage(paginatedResults.length-1)}
 			>{'>>'}</button>
 		</div>

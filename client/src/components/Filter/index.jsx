@@ -10,6 +10,13 @@ import { useDispatch, useSelector } from "react-redux"
 // import { useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
+// Import Icons
+import iconFilter from '../../res/img/filter.png';
+import iconSort from '../../res/img/sort.png';
+import iconSortNameA from '../../res/img/sort-alpha.png';
+import iconSortNameD from '../../res/img/sort-alpha-desc.png';
+import iconSortRateA from '../../res/img/sort-rate.png';
+import iconSortRateD from '../../res/img/sort-rate-desc.png';
 // Import the actions needed.
 import { setFiltering, paginateResults, setLoading} from '../../actions/index.js';
 
@@ -56,24 +63,29 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 	// Structure of the component
 	return (
 		<div className={style.component}>
-			<label>Sort by: </label>
+			<img src={ filtering.sort.type === 'none' 
+				? iconSort 
+				: filtering.sort.type === 'name'
+					? filtering.sort.ord === 'asc'
+						? iconSortNameA : iconSortNameD
+					: filtering.sort.ord === 'asc'
+						? iconSortRateA : iconSortRateD
+			}/>
 			<select name='type' onChange={(e) => changeHandle(e,'sort')}
 				value={filtering.sort.type}>
-				<option value='none'>None</option>
+				<option value='none'>- Sort by -</option>
 				<option value='name'>Name</option>
 				<option value='rating'>Rating</option>
 			</select>
-			<label>Order: </label>
 			<select name='ord' onChange={(e) => changeHandle(e,'sort')}
 				value={filtering.sort.ord} disabled={filtering.sort.type==='none'}>
-				<option value='asc'>ASC</option>
-				<option value='desc'>DESC</option>
+				<option value='asc'> ASC </option>
+				<option value='desc'> DESC </option>
 			</select>
-			<p>Filter by:</p>
-			<label>Genre: </label>
+			<img src={iconFilter}/>
 			<select name='genres' onChange={(e) => changeHandle(e,'filter')}
 				value={filtering.filter.genres}>
-				<option key='All' value='all'>All</option>
+				<option key='All' value='all'>- Genre -</option>
 				{genres.map(
 					e => (
 						<option value={e.name.toLowerCase()}
@@ -81,10 +93,9 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 					)
 				)}
 			</select>
-			<label>Source: </label>
 			<select name='id' onChange={(e) => changeHandle(e,'filter')}
 				value={filtering.filter.id}>
-				<option value='all'>All</option>
+				<option value='all'>- Source -</option>
 				<option value='L'>Database</option>
 				<option value='A'>API</option>
 			</select>

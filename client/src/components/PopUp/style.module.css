@@ -10,6 +10,9 @@
 	}
 }
 
+h2 {
+	margin-top: 10px;
+}
 .component {
 	position: fixed;
 	z-index: 1;
