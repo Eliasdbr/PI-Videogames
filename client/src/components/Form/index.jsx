@@ -29,7 +29,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		genres: []
 	});
 	// Bring things from the store.
-	const store = useSelector(store => store);
+	const {loading, response, genres, platforms} = useSelector(store => store);
 	// Dispatch for making actions.
 	const dispatch = useDispatch();
 	// Use Navigate
@@ -137,19 +137,25 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 			type,
 			id,
 		} = event.target;
-		if (type === 'checkbox') {
-			event.target.checked
-				? !input[name].includes(value*1) && 
-					setInput((prev) => ({
-						...prev,
-						[name]: [...prev[name], value*1 ],
-					}))
-				: setInput((prev) => ({
-						...prev,
-						[name]: prev[name].filter(e => e !== value*1),
-					}))
+		if (name === 'genres' || name === 'platforms') {
+			if (value*1 > 0 && !input[name].includes(value*1)) {
+				setInput((prevInput) => ({
+					...prevInput,
+					[name]: [...prevInput[name], value*1 ],
+				})); 
+			}
 		}
+		// Borra Generos o plataformas
+		/*
+		*/
 		else setInput({...input,[name]: value});
+	}
+	// Delete 1 item from an array in Input (Genres, Platforms)
+	function deleteFromList(name,id) {
+		setInput((prevInput) => ({
+			...prevInput,
+			[name]: prevInput[name].filter(e => e !== id),
+		}))
 	}
 	// Once the input changed, check if we need to display an error message
 	useEffect( 
@@ -161,97 +167,104 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	
 	
 	// Structure of the component
-	return (
-		<div className={style.container}>
-			<h2 className={style.title}>Submit your Game to our Database.</h2>
-			{store.loading 
-				? (<Loading/>) 
-				: store.response.msg 
-					? (
-						<PopUp title={store.response.created ? 'Success' : 'Error'}
-							description={store.response.msg}
-							okName='View Game Details'
-							okAction={() => navigate(`/videogame/${store.response.id}`)}
-						/>)
-			:(<form onSubmit={submitHandle} className={style.component}>
-				{/* We iterate each form item */}
-				{fields.map(
-					(field,i) => (<div key={field.name}>
-						{/* Item Label */}
-						<label key={field.name+'_item_label'}
-							className={
-								(field.validation && !field.validation.test(input[field.name])) 
-								|| (!input[field.name].length && field.required)
-								? style.error : ''
-							}
-						>
-							{field.label + (field.required ? '*' : '')}:
-						</label>
-						{/* Item Container */}
-						<div key={field.name+'_item_container'}
-							className={
-								field.type==='check' ? style.checkCont : style.inputCont
-							}
-						>
-							{ /* Each form item */ 
-							 field.type !== 'check'
-								? field.type === 'text-area'
-									? (<textarea id={field.name} key={field.name+'_form_textarea'}
-												className={
-													(field.validation && !field.validation.test(input[field.name])) 
-													? style.inputError : style.inputNorm
-												}
-												name={field.name} 
-												placeholder={field.placeholder || null} 
-												required={field.required} onChange={changeHandle}
-												 rows='6'
-												maxLength={field.max}
-											></textarea>)
-									: (
-									<input id={field.name} key={field.name+'_form_input'}
-										className={
-											(field.validation && !field.validation.test(input[field.name])) 
-											? style.inputError : style.inputNorm
-										}
-										type={field.type} name={field.name} 
-										placeholder={field.placeholder || null} 
-										required={field.required} onChange={changeHandle}
-										minLength={field.min} maxLength={field.max} size={field.size}
-										min={field.min} max={field.max} 
-									></input>
-								)
-								: store[field.name]?.map( e => (
-									<div key={`${field.name}_${e.name}_check_cont`}
-										className={style.check}
-									>
-										<input id={e.name} key={field.name+'_'+e.name+'check_input'}
-											type='checkbox' onChange={(e) => {
-												changeHandle(e);
-											}} name={field.name}
-											value={e.id}
-										/>
-										<label key={field.name+'_'+e.name+'_check_label'}>{e.name}</label>
-									</div>
-									)
-								)
-							}
-							{ /* If we just rendered the rating input, we render its value*/
-								field.name === 'rate' && (
-								<span key={field.name+'rate_span'}>
-									{(input.rate>0 ? input.rate : 'N/A')}
-								</span>
-							)}
-						</div>
-					</div>)
+	// If its loading, show it.
+	if (loading) return <Loading />;
+	// If there's a response from back, show a PopUp.
+	else if (response.msg) return (
+		<PopUp title={response.created ? 'Success' : 'Error'}
+			description={response.msg}
+			okName='View Game Details'
+			okAction={() => navigate(`/videogame/${response.id}`)}
+		/>
+	);
+	// If neither of the above happened, we show the form.
+	else return (
+		<form onSubmit={submitHandle} className={style.component}>
+			<h2>Submit your Game to our Database.</h2>
+{/*** Name Field ***/}
+			<label className={
+				!regexNotEmpty.test(input.name) 
+				? style.error : ''
+			}>Name*:</label>
+			<input className={
+					!regexNotEmpty.test(input.name)
+					? style.inputError : style.inputNorm
+				}
+				type='text' name='name' placeholder='Type here the Name of your Game.'
+				required onChange={changeHandle} maxLength='256'
+			></input>
+{/*** Description Field ***/}
+			<label className={
+				!regexNotEmpty.test(input.desc) 
+				? style.error : ''
+			}>Description*:</label>
+			<textarea className={
+					!regexNotEmpty.test(input.desc) 
+					? style.inputError : style.inputNorm
+				}
+				name='desc' placeholder="Type here your Game's description."
+				required onChange={changeHandle} rows='6'
+				maxLength='1024'
+			></textarea>
+{/*** Release Date Field***/}
+			<label>Release Date:</label>
+			<input className={style.inputNorm} type='date' name='date' 
+				onChange={changeHandle} 
+			></input>
+{/*** Rating Field ***/}
+			<label>Rating: {input.rate ? input.rate+'/5' : 'N/A'}</label>
+			<input className={style.inputNorm} type='range' name='rate'
+				onChange={changeHandle} min='0' max='5'
+			></input>
+{/*** Image Field ***/}
+			<label className={
+				!regexUrl.test(input.bg_url) 
+				? style.error : ''
+			}>Image URL:</label>
+			<input className={
+					!regexUrl.test(input.bg_url)
+					? style.inputError : style.inputNorm
+				}
+				type='text' name='bg_url' 
+				placeholder='You can choose an URL for the Image of yout Game.'
+				onChange={changeHandle} maxLength='256'
+			></input>
+{/*** Genres Selection ***/}
+			<label>Genres:</label>
+			<div className={style.tagsField}>
+				{input.genres?.map(
+					genre => (
+						<button key={genre} onClick={() => deleteFromList('genres',genre)}
+						>{genres?.find(g => g.id === genre).name} [x]</button>
+					)
 				)}
-				<br/>
-				{/* Error message */}
-				<p className={style.error} key='errorMsg' >{errorMsg}</p>
-				{/* Submit button */}
-				<button onClick={submitHandle} disabled={!!errorMsg}>
-					<h3>Submit Game</h3>
-				</button>
-			</form>)}
-		</div>
+				<select name='genres' onChange={changeHandle}>
+					<option value='0'>Add a Genre</option>
+					{genres?.map(genre => (
+						<option key={genre.id} value={genre.id} >{genre.name}</option>
+					))}
+				</select>
+			</div>
+{/*** Platforms Selection ***/}
+			<label className={ !input.platforms.length ? style.error : '' }
+			>Platforms*:</label>
+			<div className={style.tagsField}>
+				{input.platforms?.map(
+					platform => (
+						<button key={platform} onClick={
+							() => deleteFromList('platforms',platform)
+						}
+						>{platforms?.find(p => p.id === platform).name} [x]</button>
+					)
+				)}
+				<select name='platforms' onChange={changeHandle}>
+					<option value='0'>Add a Platform</option>
+					{platforms?.map(platform => (
+						<option key={platform.id} value={platform.id}
+						>{platform.name}</option>
+					))}
+				</select>
+			</div>
+		</form>
 	);
 }
