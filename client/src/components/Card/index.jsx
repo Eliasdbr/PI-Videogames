@@ -13,7 +13,7 @@ import style from './style.module.css';
 // Import the actions needed.
 // import { someAction } from '../../actions/index.js';
 
-export default function Card( { id, name, bg_url, genres, rate } ){
+export default function Card( { id, name, bg_url, genres, rate, pos } ){
 	//// Define the states.
 	//const [state,setState] = useState('default_value');
 	//// Bring things from the store.
@@ -28,6 +28,7 @@ export default function Card( { id, name, bg_url, genres, rate } ){
 		backgroundRepeat: 'no-repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center',
+		animationDelay: `${pos*0.05}s`
 	};
 	
 	//// Functions here.

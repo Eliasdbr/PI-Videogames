@@ -39,6 +39,10 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 	const location = useLocation();
 	// Use navigate
 	const navigate = useNavigate();
+	// Animation style
+	const animStyle = new Array(15).map( (e,i) => {
+		return `.component *:nth.child(${i+1}) { animation-delay: ${i*0.1}s}`;
+	}).join(' ');
 	
 	// Functions here.
 	// Turns a route query string into an object
@@ -83,21 +87,26 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 			{parseQuery(location).search 
 			&& (<h2>Games matching "{parseQuery(location).search}":</h2>)
 			}
-			<div className={style.component}>
+			<div className={style.component} >
 			{ paginatedResults.length
-			? paginatedResults[currentPage]?.map( result => (
+			? paginatedResults[currentPage]?.map( (result,i) => (
 					<Card key={result.id}
 						id={result.id}
 						name={result.name}
 						bg_url={result.background_url || defImg}
 						genres={result.genres}
 						rate={result.rating}
+						pos={i}
 					/>)
 				)
 			: (<PopUp 
 					title='Hmmm...' 
 					description='No available games match the search criteria.'
-					cancelAction={()=>navigate('/videogames')}
+					cancelAction={
+						parseQuery(location).search 
+						? (()=>navigate('/videogames'))
+						: (()=>navigate(0))
+					}
 				/>)
 			}
 			</div>

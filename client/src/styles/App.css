@@ -26,6 +26,12 @@
 	background-image: none;
 	width: 100%;
 	min-height: 100vh;
+	background-image: url('../res/img/background.jpg');
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	backdrop-filter: blur(4px);
+	background-blend-mode: overlay;
 }
 /* App children */
 .App * {

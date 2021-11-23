@@ -43,14 +43,14 @@
 	flex-wrap: wrap;
 }
 .date {
-	width: fit-content;
+	width: 150px;
 }
 .inputNorm {
 	display: flex;
 	justify-content: center;
 	min-width: 100px;
 	width: 85%;
-	box-shadow: 3px 3px 10px 0px #1128 inset;
+	box-shadow: 3px 3px 10px 0px #112c inset;
 }
 .inputCont {
 	display: flex;

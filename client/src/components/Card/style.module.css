@@ -1,4 +1,19 @@
+@keyframes showUp {
+	0% {
+		opacity: 0%;
+		/*transform: scale(50%);*/
+		top: 100px;
+	}
+	100% {
+		opacity: 100%;
+		/*transform: scale(100%);*/
+		top: 0px;
+	}
+}
 .component {
+	opacity: 0;
+	/*transform: scale(50%);*/
+	top: 100px;
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -9,6 +24,7 @@
 	box-shadow: 2px 2px 3px 0px #0028;
 	border-radius: 0.5em;
 	background-image: url('../../res/img/game_default.png');
+	animation: showUp .2s cubic-bezier(.22,.61,.36,1) forwards; 
 }
 .title {
 	position: absolute;

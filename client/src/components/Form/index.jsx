@@ -170,7 +170,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 							? style.inputError : style.inputNorm
 						}
 						type='text' name='bg_url' 
-						placeholder='You can choose an URL for the Image for your Game.'
+						placeholder='Image URL for your Game.'
 						onChange={changeHandle} maxLength='256'
 					></input>
 					<label>Image Preview:</label>
