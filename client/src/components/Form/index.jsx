@@ -56,7 +56,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 			placeholder: '"Play as the beloved plumber and rescue the princess in this classic of platformers."',
 			required: true,
 			validation: regexNotEmpty,
-			min: 1, max: 256, size: 8
+			min: 1, max: 1024, size: 8
 		},{
 			name: 'date', 
 			label: 'Release date',
@@ -162,8 +162,8 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	
 	// Structure of the component
 	return (
-		<div>
-			<h3>Submit a new Game to our Database.</h3>
+		<div className={style.container}>
+			<h2 className={style.title}>Submit your Game to our Database.</h2>
 			{store.loading 
 				? (<Loading/>) 
 				: store.response.msg 

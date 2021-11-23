@@ -11,6 +11,9 @@
 	text-align: center;
 	min-width: 50%;
 }
+.component p {
+	word-wrap: break-word;
+}
 .imgContainer {
 	height: calc(100vh - 75px - 3em);
 }
