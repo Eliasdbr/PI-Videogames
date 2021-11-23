@@ -58,7 +58,7 @@
 	padding: 0.4em 1em;
 	margin: 4px;
 	transition: all .25s cubic-bezier(.22,.61,.36,1);
-	box-shadow: 1px 1px 10px 0px #0028;
+	box-shadow: 2px 2px 3px 0px #0028;
 	font-size: 14px;
 }
 /* Hovering those buttons */
@@ -74,6 +74,7 @@
 .App * button:disabled {
 	opacity: 50%;
 	background-color: #8884;
+	box-shadow: none;
 }
 
 /* All inputs who are children of App*/
@@ -99,9 +100,10 @@
 .App * select {
 	background-color: #8886;
 	border: none;
-	/*border-radius: 0.7em;*/
 	padding: 0.4em;
 	margin: 1px;
+	box-shadow: 2px 2px 3px 0px #0028;
+	font-size: 14px;
 }
 /* Hovering those selects */
 .App * select:hover {

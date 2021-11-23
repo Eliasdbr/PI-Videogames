@@ -38,22 +38,20 @@
 	justify-content: center;
 	padding: 10px 10px;
 }
-.checkCont {
+.imgPreview {
+	border-radius: .7em;
+}
+.tagsField {
 	display: flex;
-	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	padding: 10px 10px;
-	min-width: 360;
-	max-width: 480;
-	border-bottom: 1px solid #0004;
+	min-width: 300px;
+	box-shadow: 3px 3px 10px 0px #1128 inset;
+	border-radius: .7em;
+	background-color: #8886
 }
-.check {
-	text-align: left;
-	width: 180px;
-}
-#desc {
+.tagsField select {
+	border-radius: .7em;
+	background-color: #77A6
 }
 .error {
 	color: #f44;

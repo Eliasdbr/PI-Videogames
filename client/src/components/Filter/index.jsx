@@ -63,42 +63,47 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 	// Structure of the component
 	return (
 		<div className={style.component}>
-			<img src={ filtering.sort.type === 'none' 
-				? iconSort 
-				: filtering.sort.type === 'name'
-					? filtering.sort.ord === 'asc'
-						? iconSortNameA : iconSortNameD
-					: filtering.sort.ord === 'asc'
-						? iconSortRateA : iconSortRateD
-			}/>
-			<select name='type' onChange={(e) => changeHandle(e,'sort')}
-				value={filtering.sort.type}>
-				<option value='none'>- Sort by -</option>
-				<option value='name'>Name</option>
-				<option value='rating'>Rating</option>
-			</select>
-			<select name='ord' onChange={(e) => changeHandle(e,'sort')}
-				value={filtering.sort.ord} disabled={filtering.sort.type==='none'}>
-				<option value='asc'> ASC </option>
-				<option value='desc'> DESC </option>
-			</select>
-			<img src={iconFilter}/>
-			<select name='genres' onChange={(e) => changeHandle(e,'filter')}
-				value={filtering.filter.genres}>
-				<option key='All' value='all'>- Genre -</option>
-				{genres.map(
-					e => (
-						<option value={e.name.toLowerCase()}
-							key={e.name} >{e.name}</option>
-					)
-				)}
-			</select>
-			<select name='id' onChange={(e) => changeHandle(e,'filter')}
-				value={filtering.filter.id}>
-				<option value='all'>- Source -</option>
-				<option value='L'>Database</option>
-				<option value='A'>API</option>
-			</select>
+			<div className={style.sorter}>
+				<img src={ filtering.sort.type === 'none' 
+					? iconSort 
+					: filtering.sort.type === 'name'
+						? filtering.sort.ord === 'asc'
+							? iconSortNameA : iconSortNameD
+						: filtering.sort.ord === 'asc'
+							? iconSortRateA : iconSortRateD
+				}/>
+				<select name='type' onChange={(e) => changeHandle(e,'sort')}
+					value={filtering.sort.type} className={style.leftBtn}>
+					<option value='none'>- Sort by -</option>
+					<option value='name'>Name</option>
+					<option value='rating'>Rating</option>
+				</select>
+				<select name='ord' onChange={(e) => changeHandle(e,'sort')}
+					value={filtering.sort.ord} disabled={filtering.sort.type==='none'}
+					className={style.rightBtn}>
+					<option value='asc'> ASC </option>
+					<option value='desc'> DESC </option>
+				</select>
+			</div>
+			<div className={style.filter}>
+				<img src={iconFilter}/>
+				<select name='genres' onChange={(e) => changeHandle(e,'filter')}
+					value={filtering.filter.genres} className={style.leftBtn}>
+					<option key='All' value='all'>- Genre -</option>
+					{genres.map(
+						e => (
+							<option value={e.name.toLowerCase()}
+								key={e.name} >{e.name}</option>
+						)
+					)}
+				</select>
+				<select name='id' onChange={(e) => changeHandle(e,'filter')}
+					value={filtering.filter.id} className={style.rightBtn}>
+					<option value='all'>- Source -</option>
+					<option value='L'>Database</option>
+					<option value='A'>API</option>
+				</select>
+			</div>
 			<button onClick={applyFilters}>Apply</button>
 		</div>
 	);

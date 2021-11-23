@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
+// Import default Image.
+import defImg from '../../res/img/game_default.png';
 // Import the actions needed.
 import { postGame, setLoading } from '../../actions/index.js';
 // Import the necessary components.
@@ -39,67 +41,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	/* source: http://urlregex.com/ */ 
 	const regexUrl =/^$|((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i;
 	const regexNotEmpty = /(?!^$)/; 
-	// Setting up the form fields.
-	const fields = [
-		{
-			name: 'name', 
-			label: 'Name',
-			type: 'text',
-			placeholder: '"Super Mario Bros."',
-			required: true,
-			validation: regexNotEmpty,
-			min: 1, max: 32,
-		},{
-			name: 'desc',
-			label: 'Description',
-			type: 'text-area',
-			placeholder: '"Play as the beloved plumber and rescue the princess in this classic of platformers."',
-			required: true,
-			validation: regexNotEmpty,
-			min: 1, max: 1024, size: 8
-		},{
-			name: 'date', 
-			label: 'Release date',
-			type: 'date',
-			required: false,
-			min: null, max: null, size: null
-		},{
-			name: 'rate',
-			label: 'Rating',
-			type: 'range',
-			min: 0,
-			max: 5,
-			required: false,
-			size: null,
-		},{ 
-			name: 'bg_url',
-			label: 'Image URL',
-			type: 'url',
-			placeholder: '"http://image.address.example/1a2b3c4d"',
-			required: false,
-			validation: regexUrl,
-			min: 1, max: 256, size: 32
-		},
-		// Genres
-		{
-			name: 'genres',
-			label: 'Genres',
-			type: 'check',
-			placeholder: null,
-			required: false,
-			min: null, max: null, size: null,
-		},
-		// Platforms *
-		{
-			name: 'platforms',
-			label: 'Platforms',
-			type: 'check',
-			placeholder: null,
-			required: true,
-			validation: regexNotEmpty,
-			min: null, max: null, size: null,
-		}
-	];
 	
 	// Functions here.
 	function submitHandle(event) {
@@ -108,9 +49,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 			dispatch(setLoading());
 			// Submit action
 			dispatch(postGame(input));
-		}
-		else {
-			// Pop Up
 		}
 	}
 	// Update error message
@@ -145,9 +83,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 				})); 
 			}
 		}
-		// Borra Generos o plataformas
-		/*
-		*/
 		else setInput({...input,[name]: value});
 	}
 	// Delete 1 item from an array in Input (Genres, Platforms)
@@ -164,7 +99,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		},
 		[input]
 	);
-	
 	
 	// Structure of the component
 	// If its loading, show it.
@@ -229,6 +163,9 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 				placeholder='You can choose an URL for the Image of yout Game.'
 				onChange={changeHandle} maxLength='256'
 			></input>
+			<label>Image Preview:</label>
+			<img className={style.imgPreview} src={input.bg_url || defImg}
+				width='300' height='180'/>
 {/*** Genres Selection ***/}
 			<label>Genres:</label>
 			<div className={style.tagsField}>
@@ -238,7 +175,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 						>{genres?.find(g => g.id === genre).name} [x]</button>
 					)
 				)}
-				<select name='genres' onChange={changeHandle}>
+				<select name='genres' onChange={changeHandle} value='0'>
 					<option value='0'>Add a Genre</option>
 					{genres?.map(genre => (
 						<option key={genre.id} value={genre.id} >{genre.name}</option>
@@ -257,7 +194,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 						>{platforms?.find(p => p.id === platform).name} [x]</button>
 					)
 				)}
-				<select name='platforms' onChange={changeHandle}>
+				<select name='platforms' onChange={changeHandle} value='0'>
 					<option value='0'>Add a Platform</option>
 					{platforms?.map(platform => (
 						<option key={platform.id} value={platform.id}
@@ -265,6 +202,12 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 					))}
 				</select>
 			</div>
+{/*** Submit Button ***/}
+			<button onClick={submitHandle} disabled={!!errorMsg}>
+				<h3>Submit Game</h3>
+			</button>
+{/*** Error Message ***/}
+			<p className={style.error} key='errorMsg' >{errorMsg}</p>
 		</form>
 	);
 }

@@ -6,6 +6,7 @@
 	height: 200px;
 	margin: 8px;
 	text-shadow: black 1px 1px 2px;
+	box-shadow: 2px 2px 3px 0px #0028;
 	border-radius: 0.5em;
 	background-image: url('../../res/img/game_default.png');
 }

@@ -1,5 +1,15 @@
 .component {
 	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+.sorter {
+	display: flex;
+	align-items: center;
+}
+.filter {
+	display: flex;
 	align-items: center;
 }
 .component img {
@@ -8,6 +18,7 @@
 .leftBtn {
 	border-radius: 0.7em 0 0 0.7em !important;
 	box-shadow: 2px 2px 4px 0px #0028 !important;
+	margin-right: 1px;
 }
 .leftBtn:disabled {
 	border-radius: 0.7em 0 0 0.7em !important;
@@ -16,6 +27,7 @@
 .rightBtn {
 	border-radius: 0 0.7em 0.7em 0 !important;
 	box-shadow: 2px 2px 4px 0px #0028 !important;
+	margin-left: 1px !important;
 }
 .rightBtn:disabled {
 	border-radius: 0 0.7em 0.7em 0 !important;
