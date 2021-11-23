@@ -3,9 +3,14 @@
 	justify-content: center;
 }
 .link {
-	padding: .9em;
-	font-size: 1.1em;
+	display: flex;
+	align-items: center;
+	padding: 0 .9em;
 	text-decoration: none;
+}
+.link img {
+	position: relative;
+	margin-right: 10px;;
 }
 .link:hover {
 	text-shadow: 2px 2px 4px #A8F;

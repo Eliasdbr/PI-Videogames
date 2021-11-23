@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // Link for changing routes.
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
 // Import default Image.
@@ -36,6 +36,8 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	const dispatch = useDispatch();
 	// Use Navigate
 	const navigate = useNavigate();
+	// Location to know the actual route
+	const location = useLocation();
 
 	// Validation RegExps
 	/* source: http://urlregex.com/ */ 
@@ -62,7 +64,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		} else if (!regexUrl.test(input.bg_url)) {
 			setErrorMsg('If you want to provide an URL, make sure it\'s correct.');
 		} else if (input.platforms.length <= 0) {
-			setErrorMsg('You need select at least one Platform.');
+			setErrorMsg('You must select at least one Platform.');
 		} else {
 			setErrorMsg('');
 		}
@@ -99,6 +101,14 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 			updateErrorMsg();
 		},
 		[input]
+	);
+
+	// Component mount
+	useEffect(
+		() => {
+			if (loading) dispatch(setLoading(false));
+		},
+		[response]
 	);
 	
 	// Structure of the component

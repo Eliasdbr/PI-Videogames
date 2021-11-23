@@ -10,6 +10,8 @@ import React/*, { useState }*/ from "react";
 import { NavLink } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
+// Import the logo
+import Logo from '../../res/img/logo.png';
 // Import the actions needed.
 // import { someAction } from '../../actions/index.js';
 
@@ -35,7 +37,7 @@ export default function Links( /* { prop1, prop2, prop3... } */ ){
 						return `${style.link} ${navData.isActive ? style.linkActive : ''}`
 					}
 				}
-			>Home</NavLink>
+			><img src={Logo} width='32' height='32'/>Home</NavLink>
 			<NavLink to='/videogames'
 				className={
 					navData => {

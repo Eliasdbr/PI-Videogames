@@ -53,7 +53,7 @@ export default function rootReducer(store = initialState, action) {
 		case 'GET_GAME_DETAIL': return getGameDetail(store,action.payload);
 		case 'POST_GAME': return postGame(store,action.payload);
 		case 'TOGGLE_DARK_MODE': return toggleDarkMode(store);
-		case 'SET_LOADING': return setLoading(store);
+		case 'SET_LOADING': return setLoading(store,action.payload);
 		case 'SET_FILTERING': return setFiltering(store,action.payload);
 		case 'SET_PAGE': return setPage(store,action.payload);
 		case 'RESET_RESPONSE': return resetResponse(store);

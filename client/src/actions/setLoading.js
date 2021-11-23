@@ -1,6 +1,6 @@
 /*
  *	setLoading Action
  * */
-export default function setLoading() {
-	return { type: 'SET_LOADING' };
+export default function setLoading(value) {
+	return { type: 'SET_LOADING', payload: value === false ? false : true};
 };

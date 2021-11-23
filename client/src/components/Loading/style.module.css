@@ -1,3 +1,9 @@
+@keyframes loading {
+	0% { transform: scale(100%); }
+	25% { transform: scale(125%); }
+	50% { transform: scale(100%); }
+}
+
 .component {
 	position: fixed;
 	z-index: 1;
@@ -11,3 +17,36 @@
 	background-color: #0004;
 	backdrop-filter: blur(2px);
 }
+.animLogo {
+	width: 200px;
+	height: 200px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+.dot {
+	width: 25%;
+	height: 25%;
+	margin: 4%;
+	background-color: #ECE;
+	border-radius: 50%;
+	animation: loading 1s ease-out infinite;
+}
+.space {
+	width: 25%;
+	height: 25%;
+	margin: 4%;
+	background-color: #ECE0;
+	border-radius: 50%;
+}
+
+/* First row */
+#d1 { animation-delay: 0s; }
+#d2 { animation-delay: .2s; }
+#d3 { animation-delay: .4s; }
+/* Second row */
+#d4 { animation-delay: .1s; }
+#d5 { animation-delay: .3s; }
+/* Last row */
+#d6 { animation-delay: .2s; }

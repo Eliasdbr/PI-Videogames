@@ -2,9 +2,9 @@
  *	setLoading Reducer
  * */
 
-export default function setLoading(store) {
+export default function setLoading(store,payload) {
 	return {
 		...store,
-		loading: store.loading || true,
+		loading: payload, 
 	}
 };

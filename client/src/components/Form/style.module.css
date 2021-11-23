@@ -98,4 +98,11 @@
 }
 .submit {
 	align-self: center;
+	background-color: #A5A8 !important;
+}
+.submit:enabled:hover {
+	background-color: #D8D8 !important;
+}
+.submit:enabled:active {
+	background-color: #858A !important;
 }

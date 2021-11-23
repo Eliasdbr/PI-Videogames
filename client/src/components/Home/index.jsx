@@ -10,10 +10,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
+// Import the Logo
+import Logo from '../../res/img/logo.png';
 // Import the actions needed.
 import { getGenres, getPlatforms } from '../../actions/index.js';
-
-import PopUp from '../PopUp';
 
 export default function Home( /* { prop1, prop2, prop3... } */ ){
 	//// Define the states.
@@ -33,7 +33,8 @@ export default function Home( /* { prop1, prop2, prop3... } */ ){
 	// Structure of the component
 	return (
 		<div className={style.component}>
-			<h1>Buffer Games</h1>
+			<img src={Logo} width='96' height='96'/>
+			<h1>Frame-Buffer Videogames</h1>
 			<h2>What will you master next?</h2>
 			<button onClick={
 				() => navigate('/videogames')
