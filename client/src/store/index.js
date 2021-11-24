@@ -11,7 +11,7 @@ import reduxDevTools from './enhancers.js';
 
 const store = createStore(
 	rootReducer,
-	compose(applyMiddleware(thunk),reduxDevTools)
+	compose(applyMiddleware(thunk))
 );
 
 export default store;
