@@ -38,8 +38,10 @@ export default function Card( { id, name, bg_url, genres, rate, pos } ){
 	
 	// Structure of the component
 	return (
-		<div onClick={goToGame} className={style.component}
-			style={background_style}>
+		<div onClick={goToGame} 
+			style={background_style}
+			className={style.component}
+		>
 			{/*<img src={bg_url} width='400'/>*/}
 			<h4 className={style.title}>{name}</h4>
 			<div className={style.info}>

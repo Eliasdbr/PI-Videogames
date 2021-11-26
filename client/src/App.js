@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getGenres, getPlatforms } from './actions';
 
 // Global Styles
-import './styles/App.css';
+import style from './styles/App.module.css';
 
 // Components
 import Home from './components/Home';
@@ -37,7 +37,7 @@ function App() {
 	);
 	
 	return (
-		<div className={`App ${darkMode ? 'dark' : 'light'}`}>
+		<div className={`${style.App} ${darkMode ? style.dark : style.light}`}>
 			{/* Content Routes */}
 			<Routes>
 				<Route path='/' 
@@ -49,12 +49,12 @@ function App() {
 							just like the Pager component*/}
 					<Route path='videogames' 
 						element={(<> 
-							<div className='searchOptions'>
+							<div className={style.searchOptions}>
 								<Search /> 
 								<hr/>
 								<Filter /> 
 							</div>
-							<div className='listContainer'>
+							<div className={style.listContainer}>
 								<Pager />
 								<List />
 								<Pager />

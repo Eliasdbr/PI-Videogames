@@ -35,19 +35,20 @@ export default function Pager( /* { prop1, prop2, prop3... } */ ){
 			<button disabled={currentPage===0} className={style.leftBtn}
 				onClick={()=>goToPage(0)}>{'<<'}</button>
 			{/* Previous Page*/}
-			<button disabled={currentPage===0}
+			<button disabled={currentPage===0} className={style.middleBtn}
 				onClick={()=>goToPage(currentPage-1)}>{'<'}</button>
 			{/* Pages */}
 			{paginatedResults?.map(
 				(elem,i)=>{
 					return (<button key={i} disabled={currentPage===i}
-				onClick={()=>goToPage(i)}>{i+1}</button>);
+						onClick={()=>goToPage(i)} className={style.middleBtn}
+						>{i+1}</button>);
 				}
 			)}
 			{/* Next Page */}
 			<button disabled={
 				!paginatedResults.length || currentPage===paginatedResults.length-1
-				} onClick={()=>goToPage(currentPage+1)}
+				} onClick={()=>goToPage(currentPage+1)} className={style.middleBtn}
 			>{'>'}</button>
 			{/* Last Page */}
 			<button disabled={

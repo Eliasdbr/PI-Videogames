@@ -2,22 +2,26 @@
 	display: flex;
 	justify-content: center;
 }
-.component button {
-	border-radius: 0; 
-	margin: 1px;
+
+.middleBtn {
+	border-radius: 0 !important; 
+	margin: 1px !important;
 	width: 3em;
 	box-shadow: 0px 2px 3px 0px #0028;
 }
-.component button:disabled {
+.middleBtn:disabled {
 	box-shadow: none;
 }
+
 .leftBtn {
 	border-radius: 0.7em 0 0 0.7em !important;
 	box-shadow: 2px 2px 4px 0px #0028 !important;
+	margin: 1px !important;
 }
 .rightBtn {
 	border-radius: 0 0.7em 0.7em 0 !important;
 	box-shadow: 2px 2px 4px 0px #0028 !important;
+	margin: 1px !important;
 }
 
 .leftBtn:disabled {
