@@ -37,7 +37,7 @@ export default function Links( /* { prop1, prop2, prop3... } */ ){
 						return `${style.link} ${navData.isActive ? style.linkActive : ''}`
 					}
 				}
-			><img src={Logo} width='32' height='32'/>Home</NavLink>
+			><img src={Logo} width='32' height='32' alt='Main Logo'/>Home</NavLink>
 			<NavLink to='/videogames'
 				className={
 					navData => {

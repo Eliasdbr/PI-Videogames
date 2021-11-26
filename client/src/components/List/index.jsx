@@ -3,7 +3,7 @@
  * */
 
 // React for component based dom structuring.
-import React, { useState, useEffect } from "react";
+import React, { /*useState,*/ useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // useLocation for query params.
@@ -16,7 +16,6 @@ import defImg from '../../res/img/game_default.png';
 import {
 	getVideogames,
 	setLoading,
-	paginateResults
 } from '../../actions/index.js';
 // Import components
 import Loading from '../Loading'
@@ -40,9 +39,9 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 	// Use navigate
 	const navigate = useNavigate();
 	// Animation style
-	const animStyle = new Array(15).map( (e,i) => {
-		return `.component *:nth.child(${i+1}) { animation-delay: ${i*0.1}s}`;
-	}).join(' ');
+	//const animStyle = new Array(15).map( (e,i) => {
+	//	return `.component *:nth.child(${i+1}) { animation-delay: ${i*0.1}s}`;
+	//}).join(' ');
 	
 	// Functions here.
 	// Turns a route query string into an object
@@ -76,6 +75,7 @@ export default function List( /* { prop1, prop2, prop3... } */ ){
 				dispatch(getVideogames(query.search));
 			}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[location]
 	);
 	

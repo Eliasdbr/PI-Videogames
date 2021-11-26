@@ -57,6 +57,7 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 				applyFilters();
 			}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[response]
 	);
 	
@@ -71,7 +72,7 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 							? iconSortNameA : iconSortNameD
 						: filtering.sort.ord === 'asc'
 							? iconSortRateA : iconSortRateD
-				}/>
+				} alt='Sort Icon'/>
 				<select name='type' onChange={(e) => changeHandle(e,'sort')}
 					value={filtering.sort.type} className={style.leftBtn}>
 					<option value='none'>- Sort by -</option>
@@ -86,7 +87,7 @@ export default function Filter( /* { prop1, prop2, prop3... } */ ){
 				</select>
 			</div>
 			<div className={style.filter}>
-				<img src={iconFilter}/>
+				<img src={iconFilter} alt='Filter Icon'/>
 				<select name='genres' onChange={(e) => changeHandle(e,'filter')}
 					value={filtering.filter.genres} className={style.leftBtn}>
 					<option key='All' value='all'>- Genre -</option>

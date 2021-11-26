@@ -23,7 +23,6 @@ function App() {
 		darkMode,
 		genres,
 		platforms,
-		loading
 	} = useSelector(store => store);
 	// useDispatch to perform actions
 	const dispatch = useDispatch();
@@ -33,6 +32,7 @@ function App() {
 			if (!genres.length) dispatch(getGenres());
 			if (!platforms.length) dispatch(getPlatforms());
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[]
 	);
 	

@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 // useDispatch to do actions, useSelector to use the store.
 import { useDispatch, useSelector } from "react-redux"
 // Link for changing routes.
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate/*, useLocation */} from 'react-router-dom';
 // Import local styles
 import style from './style.module.css';
 // Import default Image.
@@ -36,11 +36,12 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 	const dispatch = useDispatch();
 	// Use Navigate
 	const navigate = useNavigate();
-	// Location to know the actual route
-	const location = useLocation();
+	//// Location to know the actual route
+	//const location = useLocation();
 
 	// Validation RegExps
 	/* source: http://urlregex.com/ */ 
+	// eslint-disable-next-line
 	const regexUrl =/^$|((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/i;
 	const regexNotEmpty = /(?!^$)/; 
 	
@@ -75,8 +76,6 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		let {
 			name,
 			value,
-			type,
-			id,
 		} = event.target;
 		if (name === 'genres' || name === 'platforms') {
 			if (value*1 > 0 && !input[name].includes(value*1)) {
@@ -100,6 +99,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		() => {
 			updateErrorMsg();
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[input]
 	);
 
@@ -108,6 +108,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 		() => {
 			if (loading) dispatch(setLoading(false));
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[response]
 	);
 	
@@ -185,7 +186,7 @@ export default function Form( /* { prop1, prop2, prop3... } */ ){
 					></input>
 					<label>Image Preview:</label>
 					<img className={style.imgPreview} src={input.bg_url || defImg}
-						width='300' height='180'/>
+						width='300' height='180' alt='Videogame Background'/>
 				</div>
 			</div>
 {/*** Genres Selection ***/}

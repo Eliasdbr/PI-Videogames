@@ -3,9 +3,9 @@
  * */
 
 // React for component based dom structuring.
-import React, { useState, useEffect } from "react";
+import React, { useState/*, useEffect*/ } from "react";
 // useDispatch to do actions, useSelector to use the store.
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch/*, useSelector*/ } from "react-redux"
 // useNavigate for changing routes.
 import { useNavigate } from 'react-router-dom';
 // Import local styles

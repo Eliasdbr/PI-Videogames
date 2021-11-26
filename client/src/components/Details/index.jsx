@@ -50,6 +50,7 @@ export default function Details( /* { prop1, prop2, prop3... } */ ){
 				dispatch(getGameDetail(id));
 			}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[id, dispatch]
 	);
 	

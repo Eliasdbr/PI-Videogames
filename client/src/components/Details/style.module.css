@@ -22,7 +22,7 @@
 	z-index: 2;
 	top: 3em;
 	height: 75px;
-	background-color: #223A;
+	background-color: #223c;
 	backdrop-filter: blur(2px);
 }
 .data {
@@ -31,7 +31,7 @@
 	justify-content: center;
 	padding-bottom: 200px;
 	z-index: 1;
-	background-color: #223A;
+	background-color: #223c;
 	backdrop-filter: blur(2px);
 }
 .half1 {
